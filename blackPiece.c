@@ -1,5 +1,6 @@
-#include <iostream>
 // the black piece object/class of the backgammon game
+
+#include <iostream>
 
 class blackPiece {
 
