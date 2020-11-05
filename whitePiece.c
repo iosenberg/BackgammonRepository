@@ -5,7 +5,7 @@
 class whitePiece {
 
 public:
-char *position;
+int position;
 
 
 };
