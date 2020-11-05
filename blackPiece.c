@@ -5,7 +5,7 @@
 class blackPiece {
 
 public:
-char *position;
+int position;
 
 
 };
