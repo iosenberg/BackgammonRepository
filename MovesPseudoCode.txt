@@ -5,7 +5,11 @@ int die_roll1;
 int die_roll2;
 int start_space;
 
-open_spaces(int start_space, int die_roll, int current){
+/* When moving a chip on the bar, start will be the opoonent's end space */
+/* If there are no open spaces for a chip on the bar to move to,
+    then the rest of the round is skipped */
+
+open_spaces(int start, int die_roll, int current){
     /* Shows the open spaces of a particular dice roll*/
     If that space is the end goal and (all of the current's chips are
     either in the last five spaces or the end goal),
@@ -16,4 +20,8 @@ open_spaces(int start_space, int die_roll, int current){
 	that space is unavailable
 
 
-move(int start_space, int die_roll, int current)
+move(int start, int die_roll, int current)
+    Subtracts one chip from the start
+    If there is one opponent chip in the space to move to,
+        Move that opponent's chip to the bar
+	Add one chip to the space to move to
