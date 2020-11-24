@@ -1,0 +1,19 @@
+Text file dictating pseudocode for the player's (and the AI's) moves.
+
+int current; /* current is 1 for the player and -1 for player 2/the AI */
+int die_roll1;
+int die_roll2;
+int start_space;
+
+open_spaces(int start_space, int die_roll, int current){
+    /* Shows the open spaces of a particular dice roll*/
+    If that space is the end goal and (all of the current's chips are
+    either in the last five spaces or the end goal),
+	that space is available
+    Else if the space has one or less of the opponent's chips,
+	that space is available
+    Else,
+	that space is unavailable
+
+
+move(int start_space, int die_roll, int current)
