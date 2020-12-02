@@ -1,3 +1,34 @@
+#include <iostream>
+using namespace std;
+//initial board setup - puts 25 and 26 as the bar but this may change - not sure if we should still make a class?
+int board[26] = {2, 0, 0, 0, 0, -5, 0, -3, 0, 0, 0, 5, -5, 0, 0, 0, 3, 0, 5, 0, 0, 0, 0, -2, 0, 0};
+
+int * roll(){
+  static int rolls[2][2];
+  int roll1 = rand()%6+1;
+  int roll2 = rand()%6+1;
+  if (roll1==roll2){
+    rolls[0][0] = roll1;
+    rolls[0][1] = 4;
+  }
+  else{
+    rolls[0][0] = roll1;
+    rolls[0][1] = 1;
+    rolls[1][0] = roll2;
+    rolls[1][1] = 1;
+  }
+  return *rolls;
+}
+int main () {
+  int *p = roll();
+  cout << p[0][0];
+  return 0;
+}
+
+
+
+
+
 //using board as an array
 
 //print board - function to print board for testing
