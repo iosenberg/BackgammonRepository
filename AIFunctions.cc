@@ -56,8 +56,57 @@ public:
       cout << boardArray[i] << " ";
     }
     cout << bar << " ";
-    cout << opponentBar;
+    cout << opponentBar << endl;
   }
+  
+  board copyBoard(board originalBoard){
+    board newBoard[24];
+    for (int i = 0; i <24; i++){
+      newBoard[i] = originalBoard[i];
+    }
+    newBoard.bar = originalBoard.bar;
+    newBoard.opponentBar = originalBoard.opponentBar;
+    return newBoard;
+  }
+  
+  bool boardEqualP(board board1, board board2){
+    bool check = true;
+    int index = 0;
+    if(board1.bar != board2.bar){
+      check = false;
+    }
+    if(board1.opponentBar != board2.opponentBar){
+      check = false;
+    }
+    while (check || index < 24){
+      if(board1[index] != board2[index]){
+	check = false;
+      }
+      else{
+	index++;
+      }
+    }
+    return check;
+  }
+  //does this make a copy and reverse? or just reverse the original? also there is a way to do this recursively but i dont know how to without saving start and end as function calls
+  board reverseBoard(board board1){
+    board newBoard = board1.copyBoard();
+    int start = 0;
+    int end = 23;
+    while (start < end){
+      int temp = newBoard[start];
+      newBoard[start] = newBoard[end];
+      newBoard[end] = temp;
+      start++;
+      end--;
+    }
+    for(int i = 0; i <24; i++){
+      newBoard[i] = -newBoard[i];
+    }
+    return newBoard;
+  }
+      
+    
 };
 
 int main(){
