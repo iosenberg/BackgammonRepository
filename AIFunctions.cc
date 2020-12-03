@@ -1,29 +1,60 @@
 #include <iostream>
 using namespace std;
 //initial board setup - puts 25 and 26 as the bar but this may change - not sure if we should still make a class?
-int board[26] = {2, 0, 0, 0, 0, -5, 0, -3, 0, 0, 0, 5, -5, 0, 0, 0, 3, 0, 5, 0, 0, 0, 0, -2, 0, 0};
+//int board[26] = {2, 0, 0, 0, 0, -5, 0, -3, 0, 0, 0, 5, -5, 0, 0, 0, 3, 0, 5, 0, 0, 0, 0, -2, 0, 0};
 
-int * roll(){
-  static int rolls[2][2];
-  int roll1 = rand()%6+1;
-  int roll2 = rand()%6+1;
-  if (roll1==roll2){
-    rolls[0][0] = roll1;
-    rolls[0][1] = 4;
+class dice {
+public:
+  int roll1;
+  int roll2;
+  int frequency1;
+  int frequency2;
+  dice() {
+    roll();
   }
-  else{
-    rolls[0][0] = roll1;
-    rolls[0][1] = 1;
-    rolls[1][0] = roll2;
-    rolls[1][1] = 1;
+  void roll(){
+    roll1 = rand()%6+1;
+    roll2 = rand()%6+1;
+    if(roll1 == roll2){
+      //how do i delete the value in roll2? do i need to?
+      frequency1 = 4;
+    }
+    else{
+      frequency1 = 1;
+      frequency2 = 2;
+    }
   }
-  return *rolls;
-}
-int main () {
-  int *p = roll();
-  cout << p[0][0];
+};
+
+class board {
+public:
+  int boardArray[24] = {2, 0, 0, 0, 0, -5, 0, -3, 0, 0, 0, 5, -5, 0, 0, 0, 3, 0, 5, 0, 0, 0, 0, -2};
+  int bar=0;
+  int opponentBar=0;
+
+  void setInitialBoard(){
+    //boardArray[24] = {2, 0, 0, 0, 0, -5, 0, -3, 0, 0, 0, 5, -5, 0, 0, 0, 3, 0, 5, 0, 0, 0, 0, -2};
+    bar = 0;
+    opponentBar = 0;
+  }
+
+  void printBoard(){
+    for(int i = 0; i <= 24; i++){
+      cout << boardArray[i] << " ";
+    }
+    cout << bar << " ";
+    cout << opponentBar;
+  }
+};
+
+int main(){
+  board board1;
+  //board1.setInitialBoard();
+  board1.printBoard();
   return 0;
 }
+    
+
 
 
 
