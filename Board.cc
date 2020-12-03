@@ -13,6 +13,11 @@ Board::Board(wxFrame *parent)
   /*connect other events*/
 }
 
+void Board::OnInit(wxPaintEvent& event)
+{
+  
+}
+
 void Board::OnPaint(wxPaintEvent& event)
 {
   wxPaintDC dc(this);
@@ -36,3 +41,4 @@ void Board::Draw()
     on init (in construction or in separate event), paint the board and background
     then on every turn, or update (probably timer update), paint all the pieces
   */
+}
