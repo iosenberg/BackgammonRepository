@@ -8,19 +8,21 @@ class Board : public wxPanel
 
  public:
   Board(wxFrame *parent);
-  void Setup();  
 
  protected:
   void OnPaint(wxPaintEvent& event);
   void OnClick(wxMouseEvent& event);
-
+  void OnTimer(wxCommandEvent& event);
+  
  private:
-  enum { BoardWidth = 10, BoardHeight = 22 };
+  enum { BoardWidth = 50, BoardHeight = 26 };
 
   int SquareWidth() { return GetClientSize().GetWidth() / BoardWidth; }
   int SquareHeight() { return GetClientSize().GetHeight() / BoardHeight; }
-  void ClearBoard();
-  
+  wxStatusBar *m_stsbar;
+
+  wxTimer *timer;
+  int timecolor;
 };
 
 #endif
