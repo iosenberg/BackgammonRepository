@@ -7,8 +7,8 @@ class dice {
 public:
   int roll1;
   int roll2;
-  int frequency1;
-  int frequency2;
+  int frequency1 = 0;
+  int frequency2 = 0;
   dice() {
     roll();
   }
@@ -24,22 +24,35 @@ public:
       frequency2 = 2;
     }
   }
+  void printRoll(){
+    cout << "roll1 " << roll1; 
+    cout << "roll2 " << roll2;
+    cout << "f1 " << frequency1;
+    cout << "f2 " << frequency2;
+  }
 };
 
 class board {
 public:
-  int boardArray[24] = {2, 0, 0, 0, 0, -5, 0, -3, 0, 0, 0, 5, -5, 0, 0, 0, 3, 0, 5, 0, 0, 0, 0, -2};
-  int bar=0;
-  int opponentBar=0;
-
+  int boardArray[24] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  int bar;
+  int opponentBar;
+  
   void setInitialBoard(){
-    //boardArray[24] = {2, 0, 0, 0, 0, -5, 0, -3, 0, 0, 0, 5, -5, 0, 0, 0, 3, 0, 5, 0, 0, 0, 0, -2};
+    boardArray[0] = 2;
+    boardArray[5] = -5;
+    boardArray[7] = -3;
+    boardArray[11] = 5;
+    boardArray[12] = -5;
+    boardArray[16] = 3;
+    boardArray[19] = 5;
+    boardArray[23] = -2;
     bar = 0;
     opponentBar = 0;
   }
 
   void printBoard(){
-    for(int i = 0; i <= 24; i++){
+    for(int i = 0; i < 24; i++){
       cout << boardArray[i] << " ";
     }
     cout << bar << " ";
@@ -49,8 +62,12 @@ public:
 
 int main(){
   board board1;
-  //board1.setInitialBoard();
+  board1.setInitialBoard();
   board1.printBoard();
+  dice rollCheck1;
+  rollCheck1.printRoll();
+  dice rollCheck2;
+  rollCheck2.printRoll();
   return 0;
 }
     
