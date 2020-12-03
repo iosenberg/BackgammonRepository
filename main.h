@@ -3,6 +3,6 @@
 class MyApp : public wxApp
 {
  public:
-  virtual bool OnOnit();
+  virtual bool OnInit();
 
 };

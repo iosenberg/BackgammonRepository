@@ -5,7 +5,7 @@ IMPLEMENT_APP(MyApp)
 
 bool MyApp::OnInit()
 {
-  srand(time(NULL));
+  //srand(time(NULL));
   Backgammon *backgammon = new Backgammon(wxT("Backgammon"));
   backgammon->Centre();
   backgammon->Show(true);

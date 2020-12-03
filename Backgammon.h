@@ -3,6 +3,6 @@
 class Backgammon : public wxFrame
 {
  public:
-  Tetris(const wxString& title);
+  Backgammon(const wxString& title);
 
 };
