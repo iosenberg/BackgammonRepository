@@ -84,7 +84,7 @@ public:
 	return false;
       }
     }
-    return check;x
+    return check;
   }
   //does this make a copy and reverse? or just reverse the original? also there is a way to do this recursively but i dont know how to without saving start and end as function calls, this iterative way works though
   board reverseBoard(board board1){
@@ -108,10 +108,21 @@ public:
 
 //need to make either linked list or stack class?? for now just make generate moves function return void
 //not sure what it should take for arguments - is it a problem tha ti have roll1 and roll2?
+
+
 class Node{
 public:
   board data;
   Node* next;
+  Node* top = NULL;
+  
+  void push(board board1) {
+	  Node* newnode = (class Node*) malloc(sizeof(class Node));
+	  newnode->data = board1;
+	  newnode->next = top;
+	  top = newnode;
+  }
+
 };
 
 
@@ -120,13 +131,16 @@ Node generateMovesForSingleRoll(board board1, dice dice1){
     if (board1.boardArray[i] > 0){
       if(board1.boardArray[i+dice1.roll1] >= -1){
 	board possibleBoard = board1.copyBoard(board1);
-	possibleBoard.boardArray[i+dice.roll1] = board1.boardArray[i+dice.roll1]++;
-	//add possible board to linked list?
+	possibleBoard.boardArray[i+dice1.roll1] = board1.boardArray[i+dice1.roll1]++;
+	Node* exBoard = new Node();
+	exBoard->data = possibleBoard.copyBoard(possibleBoard);
       }
     }
+  }
+
+
+}
     
-
-
 
 int main(){
   board board1;
@@ -145,7 +159,7 @@ int main(){
     cout << "False" << endl;
   }
   return 0;
-}
+};
     
 
 
