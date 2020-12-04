@@ -9,6 +9,9 @@ class Board : public wxPanel
  public:
   Board(wxFrame *parent);
   void Start();
+  int boardArray[24] = {0};
+  int mybar;
+  int opponentbar;
 
  protected:
   void OnPaint(wxPaintEvent& event);

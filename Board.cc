@@ -14,7 +14,16 @@ Board::Board(wxFrame *parent)
   //Connect(wxEVT_TIMER, wxCommandEventHandler(Board::OnTimer));
   /*connect other events*/
   //timecolor = 115;
-  std::cout << "Hello!!\n";
+  boardArray[0] = 2;
+  boardArray[5] = -5;
+  boardArray[7] = -3;
+  boardArray[11] = 5;
+  boardArray[12] = -5;
+  boardArray[16] = 3;
+  boardArray[19] = 5;
+  boardArray[23] = -2;
+  mybar = 0;
+  opponentbar = 0;
 }
 
 /*void Board::Start()
@@ -60,9 +69,9 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
       dc.DrawPolygon(3,points1,0,0,wxODDEVEN_RULE);
       
       if(color) {
-	wxPen pen(wxColor(249,242,236));
+	wxPen pen(wxColor(210,166,121));
 	dc.SetPen(pen);
-	dc.SetBrush(wxBrush(wxColor(249,242,236)));
+	dc.SetBrush(wxBrush(wxColor(210,166,121)));
       }
       else {
 	wxPen pen(wxColor(115,77,38));
@@ -75,6 +84,34 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
 			   wxPoint((i+1)*SquareWidth()-1, SquareHeight()),
 			   wxPoint(i*SquareWidth()+SquareWidth()/2,6*SquareHeight())};
     dc.DrawPolygon(3,points2,0,0,wxODDEVEN_RULE);
+    }
+  }
+
+  for(int i=0;i<24;++i) {
+    if(boardArray[i] != 0) {
+      std::cout << "Checkin out array " << i << " which has " << boardArray[i] << "\n";
+      int n;
+      int c;
+      if (boardArray[i] < 0) {
+	n = -1*boardArray[i];
+	c = 0;
+      } else {
+	n = boardArray[i];
+	c = 255;
+      }
+      wxPen pen(wxColor(c,c,c));
+      dc.SetPen(pen);
+      dc.SetBrush(wxBrush(wxColor(c,c,c)));
+      for(int j=0;j<n;++j) {
+	if(i>11)
+	  dc.DrawCircle((i-11)*SquareWidth()+SquareWidth()/2-1,
+			(BoardHeight-j-1)*SquareHeight()-SquareHeight()/2,
+			SquareWidth()/3);
+	else
+	  dc.DrawCircle((BoardWidth-i-2)*SquareWidth()-SquareWidth()/2-1,
+			(j+1)*SquareHeight()+SquareHeight()/2,
+			SquareWidth()/3);
+      }
     }
   }
     //  dc.DrawCircle(SquareHeight()*BoardHeight/2,SquareWidth()*BoardWidth/2,SquareWidth());
