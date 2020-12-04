@@ -16,11 +16,11 @@ Board::Board(wxFrame *parent)
   //timecolor = 115;
   boardArray[0] = 2;
   boardArray[5] = -5;
-  boardArray[7] = -3;
+  boardArray[8] = -3;
   boardArray[11] = 5;
   boardArray[12] = -5;
-  boardArray[16] = 3;
-  boardArray[19] = 5;
+  boardArray[15] = 3;
+  boardArray[18] = 5;
   boardArray[23] = -2;
   mybar = 0;
   opponentbar = 0;
@@ -34,7 +34,6 @@ Board::Board(wxFrame *parent)
 void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
 {  
   wxPaintDC dc(this);
-
   //wxSize size = GetClientSize();
   // int boardTop = size.GetHeight() - BoardHeight * SquareHeight();
   //i==x,j==y
@@ -89,7 +88,6 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
 
   for(int i=0;i<24;++i) {
     if(boardArray[i] != 0) {
-      std::cout << "Checkin out array " << i << " which has " << boardArray[i] << "\n";
       int n;
       int c;
       if (boardArray[i] < 0) {
@@ -103,8 +101,13 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
       dc.SetPen(pen);
       dc.SetBrush(wxBrush(wxColor(c,c,c)));
       for(int j=0;j<n;++j) {
+	if(selectedpiece == i && j == n-1) {
+	  wxPen pen(wxColor(255,255,0));
+	  dc.SetPen(pen);
+	  dc.SetBrush(wxBrush(wxColor(255,255,0)));
+	}
 	if(i>11)
-	  dc.DrawCircle((i-11)*SquareWidth()+SquareWidth()/2-1,
+	  dc.DrawCircle((i-10)*SquareWidth()+SquareWidth()/2-1,
 			(BoardHeight-j-1)*SquareHeight()-SquareHeight()/2,
 			SquareWidth()/3);
 	else
@@ -126,13 +129,20 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
 
 }
 
-void Board::OnClick(wxMouseEvent& WXUNUSED(event))
+void Board::OnClick(wxMouseEvent& event)
 {
   wxWindowDC dc(this);
   //wxPoint position = event.GetLogicalPosition(dc);
-  //  color1 = position.x;
-  //color2 = position.y;
-  //wxLogMessage("Hewwo? %d,%d\n",position.x,position.y);
+  //int x = event.GetLogicalPosition(dc).x/SquareWidth();
+  //int y = event.GetLogicalPosition(dc).y/SquareHeight();
+  int selectedsection;
+  if(event.GetLogicalPosition(dc).y/SquareHeight() < 7)
+    selectedsection = 13 - event.GetLogicalPosition(dc).x/SquareWidth();
+  else
+    selectedsection = event.GetLogicalPosition(dc).x/SquareWidth() + 10;
+
+  selectedpiece = selectedsection;
+  
   Refresh();
 }
 /*

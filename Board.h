@@ -12,6 +12,7 @@ class Board : public wxPanel
   int boardArray[24] = {0};
   int mybar;
   int opponentbar;
+  int selectedpiece = -1;
 
  protected:
   void OnPaint(wxPaintEvent& event);
