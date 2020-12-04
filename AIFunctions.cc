@@ -60,9 +60,9 @@ public:
   }
   
   board copyBoard(board originalBoard){
-    board newBoard[24];
+    board newBoard;
     for (int i = 0; i <24; i++){
-      newBoard[i] = originalBoard[i];
+      newBoard.boardArray[i] = originalBoard.boardArray[i];
     }
     newBoard.bar = originalBoard.bar;
     newBoard.opponentBar = originalBoard.opponentBar;
@@ -78,45 +78,52 @@ public:
     if(board1.opponentBar != board2.opponentBar){
       check = false;
     }
-    while (check || index < 24){
-      if(board1[index] != board2[index]){
+    for(int i = 0; i <24; i++){
+      if (board1.boardArray[i] != board2.boardArray[i]){
 	check = false;
-      }
-      else{
-	index++;
+	return false;
       }
     }
     return check;
   }
   //does this make a copy and reverse? or just reverse the original? also there is a way to do this recursively but i dont know how to without saving start and end as function calls
   board reverseBoard(board board1){
-    board newBoard = board1.copyBoard();
+    board newBoard = board1.copyBoard(board1);
     int start = 0;
     int end = 23;
     while (start < end){
-      int temp = newBoard[start];
-      newBoard[start] = newBoard[end];
-      newBoard[end] = temp;
+      int temp = newBoard.boardArray[start];
+      newBoard.boardArray[start] = newBoard.boardArray[end];
+      newBoard.boardArray[end] = temp;
       start++;
       end--;
     }
     for(int i = 0; i <24; i++){
-      newBoard[i] = -newBoard[i];
+      newBoard.boardArray[i] = -newBoard.boardArray[i];
     }
     return newBoard;
   }
-      
-    
+         
 };
+
+
 
 int main(){
   board board1;
   board1.setInitialBoard();
   board1.printBoard();
-  dice rollCheck1;
-  rollCheck1.printRoll();
-  dice rollCheck2;
-  rollCheck2.printRoll();
+  board board2;
+  board2 = board1.copyBoard(board1);
+  board2.printBoard();
+  board board3;
+  board3 = board2.reverseBoard(board2);
+  board3.printBoard();
+  if(board1.boardEqualP(board1, board2)){
+    cout << "True ";
+  }
+  else{
+    cout << "False";
+  }
   return 0;
 }
     
