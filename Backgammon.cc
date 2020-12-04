@@ -8,5 +8,5 @@ Backgammon::Backgammon(const wxString& title)
   sb->SetStatusText(wxT("0"));
   Board *board = new Board(this);
   board->SetFocus();
-  
+  //  board->Start();
 }
