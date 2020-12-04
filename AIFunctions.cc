@@ -108,39 +108,62 @@ public:
 
 //need to make either linked list or stack class?? for now just make generate moves function return void
 //not sure what it should take for arguments - is it a problem tha ti have roll1 and roll2?
-
-
-class Node{
+class StackNode {
 public:
   board data;
-  Node* next;
-  Node* top = NULL;
-  
-  void push(board board1) {
-	  Node* newnode = (class Node*) malloc(sizeof(class Node));
-	  newnode->data = board1;
-	  newnode->next = top;
-	  top = newnode;
-  }
-
+  StackNode* next;
 };
 
+StackNode* newNode(board data){
+  StackNode* stackNode = new StackNode();
+  stackNode->data = data;
+  stackNode->next = NULL;
+  return stackNode;
+}
 
-Node generateMovesForSingleRoll(board board1, dice dice1){
+int isEmpty(StackNode* root){
+  return !root;
+}
+
+void push(StackNode** root, board data){
+  StackNode* stackNode = newNode(data);
+  stackNode->next = *root;
+  *root = stackNode;
+  data.printBoard();
+  cout << " pushed to stack\n";
+}
+
+//need to return like empty board and idk what that would look like.  i dont even use pop for this list so its ok
+//board pop(StackNode** root){
+//  if (isEmpty(*root)){
+//    return ;
+//  }
+//  StackNode* temp = *root;
+//  *root = (*root)->next;
+//  board popped = temp->data;
+//  free(temp);
+//  return popped;
+//}
+
+
+StackNode* generateMovesForSingleRoll(board board1, int roll){
+  StackNode* possibleBoards = NULL;
   for (int i = 0; i < 24; i++){
     if (board1.boardArray[i] > 0){
-      if(board1.boardArray[i+dice1.roll1] >= -1){
+      if(board1.boardArray[i+roll] >= -1){
 	board possibleBoard = board1.copyBoard(board1);
-	possibleBoard.boardArray[i+dice1.roll1] = board1.boardArray[i+dice1.roll1]++;
-	Node* exBoard = new Node();
-	exBoard->data = possibleBoard.copyBoard(possibleBoard);
+	possibleBoard.boardArray[i+roll] = board1.boardArray[i+roll]+1;
+	possibleBoard.boardArray[i] = board1.boardArray[i]-1;
+	push(&possibleBoards, possibleBoard);
       }
     }
   }
-
-
+  //something is wrong here it somehow is not using board 1 as a start board in this loop
+  return possibleBoards;
 }
     
+
+
 
 int main(){
   board board1;
@@ -158,8 +181,10 @@ int main(){
   else{
     cout << "False" << endl;
   }
+
+  generateMovesForSingleRoll(board1, 1);
   return 0;
-};
+}
     
 
 
