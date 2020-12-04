@@ -7,8 +7,8 @@ class dice {
 public:
   int roll1;
   int roll2;
-  int frequency1;
-  int frequency2;
+  int frequency1 = 0;
+  int frequency2 = 0;
   dice() {
     roll();
   }
@@ -24,33 +24,99 @@ public:
       frequency2 = 2;
     }
   }
+  void printRoll(){
+    cout << "roll1 " << roll1; 
+    cout << "roll2 " << roll2;
+    cout << "f1 " << frequency1;
+    cout << "f2 " << frequency2;
+  }
 };
 
 class board {
 public:
-  int boardArray[24] = {2, 0, 0, 0, 0, -5, 0, -3, 0, 0, 0, 5, -5, 0, 0, 0, 3, 0, 5, 0, 0, 0, 0, -2};
-  int bar=0;
-  int opponentBar=0;
-
+  int boardArray[24] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  int bar;
+  int opponentBar;
+  
   void setInitialBoard(){
-    //boardArray[24] = {2, 0, 0, 0, 0, -5, 0, -3, 0, 0, 0, 5, -5, 0, 0, 0, 3, 0, 5, 0, 0, 0, 0, -2};
+    boardArray[0] = 2;
+    boardArray[5] = -5;
+    boardArray[7] = -3;
+    boardArray[11] = 5;
+    boardArray[12] = -5;
+    boardArray[16] = 3;
+    boardArray[19] = 5;
+    boardArray[23] = -2;
     bar = 0;
     opponentBar = 0;
   }
 
   void printBoard(){
-    for(int i = 0; i <= 24; i++){
+    for(int i = 0; i < 24; i++){
       cout << boardArray[i] << " ";
     }
     cout << bar << " ";
-    cout << opponentBar;
+    cout << opponentBar << endl;
   }
+  
+  board copyBoard(board originalBoard){
+    board newBoard[24];
+    for (int i = 0; i <24; i++){
+      newBoard[i] = originalBoard[i];
+    }
+    newBoard.bar = originalBoard.bar;
+    newBoard.opponentBar = originalBoard.opponentBar;
+    return newBoard;
+  }
+  
+  bool boardEqualP(board board1, board board2){
+    bool check = true;
+    int index = 0;
+    if(board1.bar != board2.bar){
+      check = false;
+    }
+    if(board1.opponentBar != board2.opponentBar){
+      check = false;
+    }
+    while (check || index < 24){
+      if(board1[index] != board2[index]){
+	check = false;
+      }
+      else{
+	index++;
+      }
+    }
+    return check;
+  }
+  //does this make a copy and reverse? or just reverse the original? also there is a way to do this recursively but i dont know how to without saving start and end as function calls
+  board reverseBoard(board board1){
+    board newBoard = board1.copyBoard();
+    int start = 0;
+    int end = 23;
+    while (start < end){
+      int temp = newBoard[start];
+      newBoard[start] = newBoard[end];
+      newBoard[end] = temp;
+      start++;
+      end--;
+    }
+    for(int i = 0; i <24; i++){
+      newBoard[i] = -newBoard[i];
+    }
+    return newBoard;
+  }
+      
+    
 };
 
 int main(){
   board board1;
-  //board1.setInitialBoard();
+  board1.setInitialBoard();
   board1.printBoard();
+  dice rollCheck1;
+  rollCheck1.printRoll();
+  dice rollCheck2;
+  rollCheck2.printRoll();
   return 0;
 }
     
