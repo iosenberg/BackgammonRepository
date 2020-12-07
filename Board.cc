@@ -4,16 +4,11 @@ Board::Board(wxFrame *parent)
   : wxPanel(parent, wxID_ANY,wxDefaultPosition,
 	    wxDefaultSize, wxBORDER_NONE)
 {
-  // timer = new wxTimer(this,1);
-  
   m_stsbar = parent->GetStatusBar();
-  //ClearBoard();
-
+ 
   Connect(wxEVT_PAINT, wxPaintEventHandler(Board::OnPaint));
   Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(Board::OnClick));
-  //Connect(wxEVT_TIMER, wxCommandEventHandler(Board::OnTimer));
-  /*connect other events*/
-  //timecolor = 115;
+
   boardArray[0] = 2;
   boardArray[5] = -5;
   boardArray[8] = -3;
@@ -26,17 +21,10 @@ Board::Board(wxFrame *parent)
   opponentbar = 0;
 }
 
-/*void Board::Start()
-{
-  timer->Start();
-  }*/
-
 void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
 {  
   wxPaintDC dc(this);
-  //wxSize size = GetClientSize();
-  // int boardTop = size.GetHeight() - BoardHeight * SquareHeight();
-  //i==x,j==y
+
   for (int i = 0; i < BoardWidth; ++i) {
     for (int j = 0; j < BoardHeight; ++j) {
       if (i==0 || j == 0 || i == BoardWidth/2 -1 || i >= BoardWidth-2 || j == BoardHeight-1) {
@@ -117,52 +105,40 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
       }
     }
   }
-    //  dc.DrawCircle(SquareHeight()*BoardHeight/2,SquareWidth()*BoardWidth/2,SquareWidth());
-      /* for (int i=0; i < size.GetHeight(); ++i) {
-    //std::cout << timecolor + "\n";
-    wxPen pen(wxColour(color1%255,color2%255,(color1*color2)%255));
-    pen.SetCap(wxCAP_PROJECTING);
-    dc.SetPen(pen);
-    dc.DrawLine(0,i,size.GetWidth()-1,i);
-    }*/
-  /*draw shapes*/
 
 }
 
-void Board::OnClick(wxMouseEvent& event)
+void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the window
 {
   wxWindowDC dc(this);
-  //wxPoint position = event.GetLogicalPosition(dc);
-  //int x = event.GetLogicalPosition(dc).x/SquareWidth();
-  //int y = event.GetLogicalPosition(dc).y/SquareHeight();
   int selectedsection;
+
+  //takes the mouse position and calculates which section of the board is selected
   if(event.GetLogicalPosition(dc).y/SquareHeight() < 7)
     selectedsection = 13 - event.GetLogicalPosition(dc).x/SquareWidth();
   else
     selectedsection = event.GetLogicalPosition(dc).x/SquareWidth() + 10;
-
-  selectedpiece = selectedsection;
+  //selectedsection is the index of the piece selected by the mouse click
+  
+  if(selectedpiece > -1 && selectedpiece < 25) {
+    //@Veronica, put code here!
+    //I made moveslist a "list" type, but you can change it
+    //to whatever you want in Board.h
+    
+    if(//selectedsection is in list of possible moves
+       ) {
+      //make move
+      selectedpiece = -1; //resets what piece is selected to none
+    }
+    else {
+      selectedpiece = selected section;
+      //list of possible moves = get moves list function
+    }
+  }
+  else { //it also has to go down here
+    selectedpiece = selectedsection;
+    //list of possible moves = get moves list function
+  }
   
   Refresh();
 }
-/*
-void Board::OnTimer(wxCommandEvent& WXUNUSED(event))
-{
-  //  timecolor = (timecolor + 1) % 255;
-  //  std::cout << timecolor;
-  //Refresh();
-  }*/
-/*void Board::ClearBoard()
-{
-  maybe
-}
-
-void Board::Draw()
-{
-  i'm actually not gonna use this.
-    Note for late coding:
-    on init (in construction or in separate event), paint the board and background
-    then on every turn, or update (probably timer update), paint all the pieces
-  
-}
-*/
