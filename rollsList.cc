@@ -1,0 +1,47 @@
+#include <iostream>
+#include "rollsList.h"
+using namespace std;
+
+RollNode::RollNode(int rollVal){
+  this->roll = rollVal;
+  this->next = NULL;
+}
+
+RollsList::RollsList(int roll1, int roll2) {
+  header = new RollNode(roll1);
+  RollNode* temp = new RollNode(roll2);
+  header->next = temp;
+  if (roll1 == roll2){
+    RollNode* temp2 = new RollNode(roll2);
+    temp->next = temp2;
+    temp = new RollNode(roll2);
+    temp2->next = temp;
+  } 
+}
+
+int RollsList::isEmpty(){
+  return !header;
+}
+
+
+//need to return like empty board and idk what that would look like.  i dont even use pop for this list so its ok
+int RollsList::pop(){
+  if (!header){
+    return NULL;
+  }
+  RollNode* temp = header;
+  int val;
+  header = header->next;
+  val = temp->roll;
+  free(temp);
+  return val;
+}
+
+void RollsList::print(){
+  RollNode* current = header;
+  while (current != NULL) {
+    cout << current->roll;
+    current = current->next;
+  }
+  cout << endl;
+}
