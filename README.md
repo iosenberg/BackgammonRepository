@@ -9,20 +9,20 @@
 
 ### In Board.h
 - boardArray[24] | *int, contains the board spaces from 1-24 (0-23)*
-- mybar |  *int, holds the number of 
-- opponentbar | *int, holds the number of chips in the AI's end space*
+- mybar |  *int, holds the number of the player's chips on the middle bar*
+- opponentbar | *int, holds the number of the AI/opponent's chips on the middle bar*
 - selectedpiece | *int, the index of the selected piece (-1 is no piece is chosen)*
 - movesList[2] | *int, holds the valid moves of a chip and two dice rolls (-1 if no move is valid)*
 
 ### In AIBoard.h
 - boardArray[24] | *int, contains the board spaces from 1-24 (0-23)*
-- bar | *int, *
-- oppenentBar | *int, *
-- numRolls | *int, *
+- bar | *int,*
+- oppenentBar | *int,*
+- numRolls | *int,*
 
 ### In boardList.h
-- \*boardData | *board, *
-- \*next | *BoardNode, *
+- \*boardData | *board,*
+- \*next | *BoardNode,*
 
 ### In rollsList.h
 - roll | *int, holds the die roll number*
@@ -34,7 +34,7 @@
 ## Functions within Programs
 
 ### Board.cc - includes Board.h, rollsList.h
-- Board::Board(wxFrame *parent) | **
+- Board::Board(wxFrame \*parent) | **
 - void Board::OnPaint(wxPaintEvent& WXUNUSED(event)) | *Draws the board?*
 - void Board::OnClick(wxMouseEvent& event) | *Calculates the possible moves of a selected piece*
 
@@ -43,9 +43,9 @@
 - void board::setInitialBoard() | *Sets the board to a starting game board*
 - bool board::readyToBearOff() | *Checks if someone is ready to start adding their pieces to their end area*
 - void board::printBoard() | **
-- board* board::copyBoard() | **
+- board\* board::copyBoard() | **
 - bool board::boardEqualP(board* testboard) | **
-- board* board::reverseBoard() | **
+- board\* board::reverseBoard() | **
 
 ### AIFunctions.cc
 
