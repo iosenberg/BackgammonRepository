@@ -1,4 +1,6 @@
+#include <iostream>
 #include "Board.h"
+#include "rollsList.h"
 
 Board::Board(wxFrame *parent)
   : wxPanel(parent, wxID_ANY,wxDefaultPosition,
@@ -121,17 +123,22 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   //selectedsection is the index of the piece selected by the mouse click
   
   if(selectedpiece > -1 && selectedpiece < 25) {
-    //@Veronica, put code here!
-    //I made moveslist a "list" type, but you can change it
-    //to whatever you want in Board.h
-    
+    // 0 is bar, 25 is white endspace, 26 is brown endspace
+    // White is positive, brown is negative
+    int startspace;
+    if (selectedpiece == 0){
+      if (color == true) startspace = 26;
+      else if (color == false) startspace = 25;
+    } else startspace = selectedpiece;
+  }
+  
     if(//selectedsection is in list of possible moves
        ) {
       //make move
       selectedpiece = -1; //resets what piece is selected to none
     }
     else {
-      selectedpiece = selected section;
+      selectedpiece = selectedsection;
       //list of possible moves = get moves list function
     }
   }

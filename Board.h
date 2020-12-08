@@ -13,7 +13,7 @@ class Board : public wxPanel
   int mybar;
   int opponentbar;
   int selectedpiece = -1; //generally selected piece (as opposed to piece selected by mouse)
-  list<lint> moveslist; //do whatever you want with this, @Veronica
+  int movesList[2] = {-1}; //do whatever you want with this, @Veronica
 
  protected:
   void OnPaint(wxPaintEvent& event);
