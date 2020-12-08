@@ -7,6 +7,10 @@ RollNode::RollNode(int rollVal){
   this->next = NULL;
 }
 
+RollsList::RollsList() {
+  header = NULL;
+}
+
 RollsList::RollsList(int roll1, int roll2) {
   header = new RollNode(roll1);
   RollNode* temp = new RollNode(roll2);
@@ -23,11 +27,10 @@ int RollsList::isEmpty(){
   return !header;
 }
 
-
 //need to return like empty board and idk what that would look like.  i dont even use pop for this list so its ok
 int RollsList::pop(){
   if (!header){
-    return NULL;
+    return -1;
   }
   RollNode* temp = header;
   int val;
@@ -37,10 +40,27 @@ int RollsList::pop(){
   return val;
 }
 
+int RollsList::first() {
+  if (!header){
+    return -1;
+  }
+  else {
+    return header->roll;
+  }
+}
+
+RollsList* RollsList::rest() {
+  RollsList* newlst = new RollsList();
+  if (header != NULL) {
+    newlst->header = header->next;
+  }
+  return newlst;
+}
+
 void RollsList::print(){
   RollNode* current = header;
   while (current != NULL) {
-    cout << current->roll;
+    cout << current->roll << " ";
     current = current->next;
   }
   cout << endl;

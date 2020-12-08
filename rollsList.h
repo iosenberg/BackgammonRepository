@@ -14,10 +14,13 @@ public:
 class RollsList {
 public:
   RollNode* header;
-  
+
+  RollsList();
   RollsList(int, int);
   int isEmpty();
   int pop();
+  int first();
+  RollsList* rest();
   void print();
 
 };
