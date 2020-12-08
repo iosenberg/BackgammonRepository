@@ -27,3 +27,29 @@
 - rest() | *returns a new list with the first RollNode removed*
 
 ## Functions within Programs
+
+### Board.cc - includes Board.h, rollsList.h
+- Board::Board(wxFrame *parent) | **
+- void Board::OnPaint(wxPaintEvent& WXUNUSED(event)) | *Draws the board?*
+- void Board::OnClick(wxMouseEvent& event) | *Calculates the possible moves of a selected piece*
+
+### AIBoard.cc - includes AIBoard.h
+- board::board() | **
+- void board::setInitialBoard() | *Sets the board to a starting game board*
+- bool board::readyToBearOff() | *Checks if someone is ready to start adding their pieces to their end area*
+- void board::printBoard() | **
+- board* board::copyBoard() | **
+- bool board::boardEqualP(board* testboard) | **
+- board* board::reverseBoard() | **
+
+### AIFunctions.cc
+
+### boardList.cc
+
+### rollsList.cc
+
+### bg.cc
+
+### Backgammon.cc
+
+### main.cc
