@@ -9,7 +9,7 @@ class Board : public wxPanel
  public:
   Board(wxFrame *parent);
   void Start();
-  int boardArray[25] = {0};
+  int boardArray[24] = {0};
   int mybar;
   int opponentbar;
   int selectedpiece = -1; //generally selected piece (as opposed to piece selected by mouse)
