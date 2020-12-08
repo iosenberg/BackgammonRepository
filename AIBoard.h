@@ -14,6 +14,7 @@ public:
 
   board();
   void setInitialBoard();
+  void setTestBoard();
   bool readyToBearOff();
   void printBoard();
   board* copyBoard();

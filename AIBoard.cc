@@ -24,6 +24,13 @@ void board::setInitialBoard(){
   opponentBar = 0;
 }
 
+void board::setTestBoard(){
+  boardArray[16] = 3;
+  boardArray[19] = 5;
+  bar = 0;
+  opponentBar = 0;
+}
+
 bool board::readyToBearOff(){
   int sum = 0;
   for (int i = 0; i < 18; i++){
@@ -43,7 +50,8 @@ void board::printBoard(){
     cout << boardArray[i] << " ";
   }
   cout << "bar " << bar << " ";
-  cout << "opponent-bar " << opponentBar << endl;
+  cout << "opponent-bar " << opponentBar << " ";
+  cout << "num-rolls " << numRolls << endl;
 }
 
 //function to copy board - need this to generate possible boards

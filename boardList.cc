@@ -34,6 +34,23 @@ board* BoardList::pop(){
   return val;
 }
 
+board* BoardList::first() {
+  if (!header){
+    return NULL;
+  }
+  else {
+    return header->boardData;
+  }
+}
+
+BoardList* BoardList::rest() {
+  BoardList* newlst = new BoardList();
+  if (header != NULL) {
+    newlst->header = header->next;
+  }
+  return newlst;
+}
+
 void BoardList::print(){
   BoardNode* current = header;
   while (current != NULL) {
@@ -70,3 +87,16 @@ void BoardList::Merge(BoardList* lst){
   }
   temp->next = lst->header;
 }
+
+int BoardList::findMax(){
+  int max = 0;
+  BoardNode* current = header;
+  while(current !=NULL){
+    if(current->boardData->numRolls > max){
+      max = current->boardData->numRolls;
+    }
+    current = current->next;
+  }
+  return max;
+}
+  

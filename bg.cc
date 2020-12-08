@@ -77,6 +77,28 @@ BoardList* generateAllMoves(board* board1, RollsList* rolls, int numRolls){
   return returnLst;
 }
 
+BoardList* generateMoves(board* board1, RollsList* rolls){
+  BoardList* possibleMoves = new BoardList();
+  if(rolls->header == rolls->header->next){
+    possibleMoves = generateAllMoves(board1, rolls, 1);
+  }
+  else{
+    possibleMoves = generateAllMoves(board1, rolls, 1);
+    rolls->reverse();
+    possibleMoves->Merge(generateAllMoves(board1, rolls, 1));
+  }
+  int maxRolls = possibleMoves->findMax();
+  BoardList* refinedMoves = new BoardList();
+  BoardNode* current = possibleMoves->header;
+  while(current!=NULL){
+    if(current->boardData->numRolls == maxRolls){
+      refinedMoves->push(current->boardData);
+    }
+    current = current->next;
+  }
+  refinedMoves->removeDuplicates();
+  return refinedMoves;
+}
 
 //function for testing
 int main(){
@@ -117,7 +139,7 @@ int main(){
   board board4;
   board4.setTestBoard();
   board4.printBoard();
-  BoardList* moremoves = generateAllMoves(&board4, rolls, 1);
+  BoardList* moremoves = generateMoves(&board4, rolls);
   moremoves->print();
   
   return 0;

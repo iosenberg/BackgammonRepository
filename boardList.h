@@ -21,10 +21,12 @@ public:
   int isEmpty();
   void push(board*);
   board* pop();
+  board* first();
+  BoardList* rest();
   void print();
   void removeDuplicates();
   void Merge(BoardList*);
-
+  int findMax();
 };
 
 

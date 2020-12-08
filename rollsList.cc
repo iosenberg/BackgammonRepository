@@ -65,3 +65,15 @@ void RollsList::print(){
   }
   cout << endl;
 }
+
+void RollsList::reverse(){
+  RollNode* current = header;
+  RollNode *prev = NULL, *next = NULL;
+  while (current != NULL){
+    next = current->next;
+    current->next = prev;
+    prev = current;
+    current = next;
+  }
+  header = prev;
+}

@@ -22,6 +22,7 @@ public:
   int first();
   RollsList* rest();
   void print();
+  void reverse();
 
 };
 
