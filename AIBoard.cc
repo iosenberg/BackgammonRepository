@@ -8,6 +8,7 @@ board::board()
       boardArray[i] = 0;
     }
     numRolls = 0;
+    score = 0;
   }
 
 //function to set board to starting game baord
@@ -51,7 +52,8 @@ void board::printBoard(){
   }
   cout << "bar " << bar << " ";
   cout << "opponent-bar " << opponentBar << " ";
-  cout << "num-rolls " << numRolls << endl;
+  cout << "num-rolls " << numRolls << " ",
+  cout << "boardScore " << score << endl;
 }
 
 //function to copy board - need this to generate possible boards

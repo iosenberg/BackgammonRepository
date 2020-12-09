@@ -11,6 +11,7 @@ public:
   int bar;
   int opponentBar;
   int numRolls;
+  int score;
 
   board();
   void setInitialBoard();

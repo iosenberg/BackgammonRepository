@@ -100,6 +100,42 @@ BoardList* generateMoves(board* board1, RollsList* rolls){
   return refinedMoves;
 }
 
+//BoardList->BoardNode->boardData->boardArray,oppenentBar, etc
+board* bestMove(board* currentBoard){
+  RollsList* rolls = new RollsList(1,2);
+  BoardList* refinedMoves = generateMoves(currentBoard, rolls);
+  BoardNode* current = refinedMoves->header;
+  bool check = true;
+  while(current!=NULL){
+    for(int i = 0; i<24; i++){
+      if(current->boardData->boardArray[i] == 1){
+	check = false;
+      }
+      if(current->boardData->opponentBar > currentBoard->opponentBar){
+	current->boardData->score++;
+      }
+    }
+    if (check){
+      current->boardData->score++;
+    }
+    
+    current = current->next;
+  }
+  current = refinedMoves->header;
+  int maximumScore = -1;
+  board* bestBoard;
+  while(current != NULL){
+    if(current->boardData->score > maximumScore){
+      bestBoard = current->boardData;
+      maximumScore = bestBoard->score;
+    }
+    current = current->next;
+  }
+  return bestBoard;
+}
+	
+
+
 //function for testing
 int main(){
   board board1;
@@ -140,7 +176,9 @@ int main(){
   board4.setTestBoard();
   board4.printBoard();
   BoardList* moremoves = generateMoves(&board4, rolls);
-  moremoves->print();
+  board* bestBoard = bestMove(&board4);
+  bestBoard->printBoard();
+  
   
   return 0;
 }
