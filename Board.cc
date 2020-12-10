@@ -13,14 +13,43 @@ Board::Board(wxFrame *parent)
 
   boardArray[0] = 2;
   boardArray[5] = -5;
-  boardArray[8] = -3;
+  boardArray[7] = -3;
   boardArray[11] = 5;
   boardArray[12] = -5;
-  boardArray[15] = 3;
+  boardArray[16] = 3;
   boardArray[18] = 5;
   boardArray[23] = -2;
   mybar = 0;
   opponentbar = 0;
+}
+
+int Board::ToArray(int x, int y)
+{
+  int n;
+  if(y<7) {
+    n = 13 - x;
+    if (x<7) n--;
+  }
+  else {
+    n = x + 10;
+    if (x<7) n++;
+  }
+  return n;
+  
+}
+
+int Board::ToBoard(int i)
+{
+  int x;
+  if(i>11) {
+    x = i-11;
+    if (i>17) x++;
+  }
+  else {
+    x = BoardWidth-i-4;
+    if (i<7) x++;
+  }
+  return x;    
 }
 
 void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
@@ -29,6 +58,15 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
 
 
   //Draws the base board
+  dc.SetPen(wxPen(wxColor(153,38,0))); //Outer, red section
+  dc.SetBrush(wxBrush(wxColor(153,38,0)));
+  dc.DrawRectangle(0,0,BoardWidth*SquareWidth(),BoardHeight*SquareHeight());
+
+  dc.SetPen(wxPen(wxColor(51,10,83))); //two inner, brown sections
+  dc.SetBrush(wxBrush(wxColor(198,140,83)));  //51, 10, 0 - for frame!!
+  dc.DrawRectangle(SquareWidth()-1,SquareHeight()-1,6*SquareWidth()+2,11*SquareHeight()+3);
+  dc.DrawRectangle(8*SquareWidth()-1,SquareHeight()-1,6*SquareWidth()+2,11*SquareHeight()+3);
+  /*
   for (int i = 0;i < BoardWidth; ++i) {
     for (int j = 0; j < BoardHeight; ++j) {
       if (i==0 || j == 0 || i == BoardWidth/2 -1 || i >= BoardWidth-2 || j == BoardHeight-1) {
@@ -42,7 +80,7 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
       dc.DrawRectangle(i*SquareWidth(),j*SquareHeight(),SquareWidth(),SquareHeight());
     }
   }
-
+  */
 
   //Draws the triangles
   bool color = true; // true is white, false is brown
@@ -53,6 +91,7 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
       wxPoint points1[] = {wxPoint(i*SquareWidth(), (BoardHeight-1)*SquareHeight()),
 			   wxPoint((i+1)*SquareWidth()-1, (BoardHeight-1)*SquareHeight()),
 			   wxPoint(i*SquareWidth()+SquareWidth()/2,(BoardHeight-6)*SquareHeight())};
+      
       dc.DrawPolygon(3,points1,0,0,wxODDEVEN_RULE);
       
       if(color) {
@@ -68,20 +107,21 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
       wxPoint points2[] = {wxPoint(i*SquareWidth(), SquareHeight()),
 			   wxPoint((i+1)*SquareWidth()-1, SquareHeight()),
 			   wxPoint(i*SquareWidth()+SquareWidth()/2,6*SquareHeight())};
-    dc.DrawPolygon(3,points2,0,0,wxODDEVEN_RULE);
+      
+      dc.DrawPolygon(3,points2,0,0,wxODDEVEN_RULE);
     }
   }
 
     
   //Draws the dice
-  dc.SetPen(wxPen(wxColor(128,10,0)));
+  dc.SetPen(wxPen(wxColor(51,10,0)));
   dc.SetBrush(wxBrush(wxColor(128,10,0)));
-  dc.DrawRectangle(14*SquareWidth(),5*SquareHeight(),SquareWidth(),3*SquareHeight());
+  dc.DrawRectangle(14*SquareWidth(),5*SquareHeight(),SquareWidth(),3*SquareHeight()+1);
   if (roll1*roll2 == 0) {
     dc.SetTextForeground(wxColor(255,255,0));
     dc.SetFont(wxFont(SquareHeight()*6/5, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
 		      wxFONTWEIGHT_NORMAL,false));
-    dc.DrawRotatedText(wxString("Roll!"),14.9*SquareWidth(),5.15*SquareHeight(),270);
+    dc.DrawRotatedText(wxString("Roll!"),14.9*SquareWidth()+1,5.15*SquareHeight(),270);
   }
   else
     for (int i=0;i<2;++i) {
@@ -132,9 +172,14 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
       }
     }
 
+  //Draws the bar for both teams, and populates it appropriately
+  dc.SetPen(wxPen(wxColor(51,10,0)));
+  dc.SetBrush(wxBrush(wxColor(128,10,0)));
+  dc.DrawRectangle(14*SquareWidth(),SquareHeight()-1,SquareWidth(),4*SquareHeight()+2);
+  dc.DrawRectangle(14*SquareWidth(),8*SquareHeight()-1,SquareWidth(),4*SquareHeight()+3);
   
   //Draws the pieces
-  for(int i=0;i<24;++i) { 
+  for(int i=0;i<26;++i) { 
     if(boardArray[i] != 0) {
       int n;
       int c;
@@ -152,19 +197,18 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
 	  dc.SetPen(wxPen(wxColor(255,255,0)));
 	  dc.SetBrush(wxBrush(wxColor(255,255,0)));
 	}
-	if(i>11)
-	  dc.DrawCircle((i-10)*SquareWidth()+SquareWidth()/2-1,
-			(BoardHeight-j-1)*SquareHeight()-SquareHeight()/2,
-			SquareWidth()/3);
-	else
-	  dc.DrawCircle((BoardWidth-i-2)*SquareWidth()-SquareWidth()/2-1,
-			(j+1)*SquareHeight()+SquareHeight()/2,
-			SquareWidth()/3);
+	int x = ToBoard(i) * SquareWidth() + SquareWidth()/2 - 1;
+	if(i<12)
+	  dc.DrawCircle(x,(j+1)*SquareHeight()+SquareHeight()/2,SquareWidth()/3);
+	else if (i<24) 
+	  dc.DrawCircle(x,(BoardHeight-j-1)*SquareHeight()-SquareHeight()/2,SquareWidth()/3);
+	else if (i==25){}
+	else {}
       }
     }
   }
-
 }
+	
 
 void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the window
 {
@@ -172,7 +216,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   int x = event.GetLogicalPosition(dc).x/SquareWidth();
   int y = event.GetLogicalPosition(dc).y/SquareHeight();
 
-  if (x == 14) { //they rolled the dice!
+  if (x == 14 && y > 4 && y < 8) { //they rolled the dice!
     if(roll1*roll2 == 0) {
       roll1 = (rand() % 6) + 1;
       roll2 = (rand() % 6) + 1;
@@ -182,17 +226,19 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   int selectedsection = -1;
   
   //takes the mouse position and calculates which section of the board is selected
-  if(y < 7)
-    selectedsection = 13 - x;
-  else
-    selectedsection = x + 10;
+  if(x>0)  selectedsection = ToArray(x,y);
+  if(selectedsection != -1){
+    roll1 = 0;
+    roll2 = 0;
+  }
 
-  if(selectedsection == 0) roll1 = 0;
+  selectedpiece = selectedsection;
   //selectedsection is the index of the piece selected by the mouse click
-  printf("Square: %d,%d. Section selected: %d. Height rn: %d\n",x,y,selectedsection, SquareHeight());
+  printf("%d,%d: %d\n",x,y,selectedsection);
+  
 
-  /* HERES THE FIRST COMMENT BRACKET. Sorry for commenting out all your code lol
-
+ /* HERES THE FIRST COMMENT BRACKET. Sorry for commenting out all your code lol
+ 
   if(selectedpiece > -1 && selectedpiece < 25) {
     // 25 is white endspace, 24 is brown endspace
     // White is positive, brown is negative
@@ -234,5 +280,14 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
 
   HERE'S THE LAST COMMENT BRACKET
   */
+
+
+  //Player Moves
+  //Change boardArray;
+  //Refresh()
+  //AI moves
+  //Change boardArray;
+
+  
   Refresh();
 }

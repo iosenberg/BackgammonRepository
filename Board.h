@@ -22,6 +22,9 @@ class Board : public wxPanel
   void OnClick(wxMouseEvent& event);
   
  private:
+  int ToArray(int x, int y);
+  int ToBoard(int i);
+  
   enum { BoardWidth = 16, BoardHeight = 13 };
 
   int SquareWidth() { return GetClientSize().GetWidth() / BoardWidth; }
