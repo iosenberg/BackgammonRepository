@@ -27,28 +27,26 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
 {  
   wxPaintDC dc(this);
 
-  for (int i = 0; i < BoardWidth; ++i) {
+
+  //Draws the base board
+  for (int i = 0;i < BoardWidth; ++i) {
     for (int j = 0; j < BoardHeight; ++j) {
       if (i==0 || j == 0 || i == BoardWidth/2 -1 || i >= BoardWidth-2 || j == BoardHeight-1) {
-	wxPen pen(wxColour(153,51,0));
-	pen.SetCap(wxCAP_PROJECTING);
-	dc.SetPen(pen);
-	dc.SetBrush(wxBrush(wxColour(153,51,0)));
+	dc.SetPen(wxPen(wxColor(153,38,0)));//51
+	dc.SetBrush(wxBrush(wxColour(153,38,0)));
       }
       else {
-	wxPen pen(wxColour(198,140,83));
-	pen.SetCap(wxCAP_PROJECTING);
-	dc.SetPen(pen);
+	dc.SetPen(wxPen(wxColor(198,140,83)));
 	dc.SetBrush(wxBrush(wxColour(198,140,83)));
       }
       dc.DrawRectangle(i*SquareWidth(),j*SquareHeight(),SquareWidth(),SquareHeight());
     }
   }
 
+
+  //Draws the triangles
   bool color = true; // true is white, false is brown
-  wxPen pen(wxColor(115,77,38));
-  pen.SetCap(wxCAP_PROJECTING);
-  dc.SetPen(pen);
+  dc.SetPen(wxPen(wxColor(115,77,38)));
   dc.SetBrush(wxBrush(wxColour(115,77,38)));
   for (int i = 1; i < BoardWidth - 2; ++i) {
     if(i!=BoardHeight/2 +1) {     
@@ -58,13 +56,11 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
       dc.DrawPolygon(3,points1,0,0,wxODDEVEN_RULE);
       
       if(color) {
-	wxPen pen(wxColor(210,166,121));
-	dc.SetPen(pen);
+	dc.SetPen(wxPen(wxColor(210,166,121)));
 	dc.SetBrush(wxBrush(wxColor(210,166,121)));
       }
       else {
-	wxPen pen(wxColor(115,77,38));
-	dc.SetPen(pen);
+	dc.SetPen(wxPen(wxColor(115,77,38)));
 	dc.SetBrush(wxBrush(wxColor(115,77,38)));
       }
       color = !color;
@@ -76,7 +72,69 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
     }
   }
 
-  for(int i=0;i<24;++i) {
+    
+  //Draws the dice
+  dc.SetPen(wxPen(wxColor(128,10,0)));
+  dc.SetBrush(wxBrush(wxColor(128,10,0)));
+  dc.DrawRectangle(14*SquareWidth(),5*SquareHeight(),SquareWidth(),3*SquareHeight());
+  if (roll1*roll2 == 0) {
+    dc.SetTextForeground(wxColor(255,255,0));
+    dc.SetFont(wxFont(SquareHeight()*6/5, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
+		      wxFONTWEIGHT_NORMAL,false));
+    dc.DrawRotatedText(wxString("Roll!"),14.9*SquareWidth(),5.15*SquareHeight(),270);
+  }
+  else
+    for (int i=0;i<2;++i) {
+      double x = 14.1*SquareWidth();
+      double y = 5.2*SquareHeight() + i*1.4*SquareHeight();
+      double width = SquareWidth()*4/5;
+      dc.SetPen(wxPen(wxColor(255,255,255)));
+      dc.SetBrush(wxBrush(wxColor(255,255,255)));
+      dc.DrawRectangle(x,y,width,width);
+      
+      width /= 4;
+      
+      dc.SetPen(wxPen(wxColor(0,0,0)));
+      dc.SetBrush(wxBrush(wxColor(0,0,0)));
+      switch(i ? roll1 : roll2) {
+      case 1:
+	dc.DrawCircle(x+2*width,y+2*width,width/3);
+	break;
+      case 2:
+	dc.DrawCircle(x+3*width,y+width,width/3);
+	dc.DrawCircle(x+width,y+3*width,width/3);
+	break;
+      case 3:
+	dc.DrawCircle(x+3*width,y+width,width/3);
+	dc.DrawCircle(x+2*width,y+2*width,width/3);
+	dc.DrawCircle(x+width,y+3*width,width/3);
+	break;
+      case 4:
+	dc.DrawCircle(x+width,y+width,width/3);
+	dc.DrawCircle(x+3*width,y+width,width/3);
+	dc.DrawCircle(x+width,y+3*width,width/3);
+	dc.DrawCircle(x+3*width,y+3*width,width/3);
+	break;
+      case 5:
+	dc.DrawCircle(x+width,y+width,width/3);
+	dc.DrawCircle(x+3*width,y+width,width/3);
+	dc.DrawCircle(x+width,y+3*width,width/3);
+	dc.DrawCircle(x+3*width,y+3*width,width/3);
+	dc.DrawCircle(x+2*width,y+2*width,width/3);
+	break;
+      case 6:
+	dc.DrawCircle(x+width,y+width,width/3);
+	dc.DrawCircle(x+width,y+2*width,width/3);
+	dc.DrawCircle(x+width,y+3*width,width/3);
+	dc.DrawCircle(x+3*width,y+width,width/3);
+	dc.DrawCircle(x+3*width,y+2*width,width/3);
+	dc.DrawCircle(x+3*width,y+3*width,width/3);
+      }
+    }
+
+  
+  //Draws the pieces
+  for(int i=0;i<24;++i) { 
     if(boardArray[i] != 0) {
       int n;
       int c;
@@ -87,13 +145,11 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
 	n = boardArray[i];
 	c = 255;
       }
-      wxPen pen(wxColor(c,c,c));
-      dc.SetPen(pen);
+      dc.SetPen(wxColor(c,c,c));
       dc.SetBrush(wxBrush(wxColor(c,c,c)));
       for(int j=0;j<n;++j) {
 	if(selectedpiece == i && j == n-1) {
-	  wxPen pen(wxColor(255,255,0));
-	  dc.SetPen(pen);
+	  dc.SetPen(wxPen(wxColor(255,255,0)));
 	  dc.SetBrush(wxBrush(wxColor(255,255,0)));
 	}
 	if(i>11)
@@ -113,15 +169,27 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
 void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the window
 {
   wxWindowDC dc(this);
+  int x = event.GetLogicalPosition(dc).x/SquareWidth();
+  int y = event.GetLogicalPosition(dc).y/SquareHeight();
+
+  if (x == 14) { //they rolled the dice!
+    if(roll1*roll2 == 0) {
+      roll1 = (rand() % 6) + 1;
+      roll2 = (rand() % 6) + 1;
+    }
+  }
+  
   int selectedsection = -1;
   
   //takes the mouse position and calculates which section of the board is selected
-  if(event.GetLogicalPosition(dc).y/SquareHeight() < 7)
-    selectedsection = 13 - event.GetLogicalPosition(dc).x/SquareWidth();
+  if(y < 7)
+    selectedsection = 13 - x;
   else
-    selectedsection = event.GetLogicalPosition(dc).x/SquareWidth() + 10;
+    selectedsection = x + 10;
+
+  if(selectedsection == 0) roll1 = 0;
   //selectedsection is the index of the piece selected by the mouse click
-  printf("Square: %d,%d. Section selected: %d\n",event.GetLogicalPosition(dc).x/SquareWidth(),event.GetLogicalPosition(dc).y/SquareHeight(),selectedsection);
+  printf("Square: %d,%d. Section selected: %d. Height rn: %d\n",x,y,selectedsection, SquareHeight());
 
   /* HERES THE FIRST COMMENT BRACKET. Sorry for commenting out all your code lol
 

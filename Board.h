@@ -14,6 +14,8 @@ class Board : public wxPanel
   int opponentbar;
   int selectedpiece = -1; //generally selected piece (as opposed to piece selected by mouse)
   int movesList[2] = {-1}; //do whatever you want with this, @Veronica
+  int roll1 = 0;
+  int roll2 = 0;
 
  protected:
   void OnPaint(wxPaintEvent& event);
