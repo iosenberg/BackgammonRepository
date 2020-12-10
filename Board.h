@@ -1,7 +1,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include<wx/wx.h>
+#include <wx/wx.h>
 #include <list>
 
 class Board : public wxPanel
@@ -9,7 +9,7 @@ class Board : public wxPanel
  public:
   Board(wxFrame *parent);
   void Start();
-  int boardArray[24] = {0};
+  int boardArray[26] = {0};
   int mybar;
   int opponentbar;
   int selectedpiece = -1; //generally selected piece (as opposed to piece selected by mouse)

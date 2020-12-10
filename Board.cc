@@ -113,15 +113,18 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
 void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the window
 {
   wxWindowDC dc(this);
-  int selectedsection;
-
+  int selectedsection = -1;
+  
   //takes the mouse position and calculates which section of the board is selected
   if(event.GetLogicalPosition(dc).y/SquareHeight() < 7)
     selectedsection = 13 - event.GetLogicalPosition(dc).x/SquareWidth();
   else
     selectedsection = event.GetLogicalPosition(dc).x/SquareWidth() + 10;
   //selectedsection is the index of the piece selected by the mouse click
-  
+  printf("Square: %d,%d. Section selected: %d\n",event.GetLogicalPosition(dc).x/SquareWidth(),event.GetLogicalPosition(dc).y/SquareHeight(),selectedsection);
+
+  /* HERES THE FIRST COMMENT BRACKET. Sorry for commenting out all your code lol
+
   if(selectedpiece > -1 && selectedpiece < 25) {
     // 25 is white endspace, 24 is brown endspace
     // White is positive, brown is negative
@@ -160,6 +163,8 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     selectedpiece = selectedsection;
     //list of possible moves = get moves list function
   }
-  
+
+  HERE'S THE LAST COMMENT BRACKET
+  */
   Refresh();
 }

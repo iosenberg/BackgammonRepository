@@ -4,6 +4,7 @@ LDFLAGS = `wx-config --cxxflags` `wx-config --libs`
 
 all: Board.o Backgammon.o AIBoard.o rollsList.o boardList.o bg.o GUItest 
 
+GUI: BoardNoRolls.o Backgammon.o GUItest
 
 AIBoard.o: AIBoard.h
 	$(CC) $(CFLAGS) -c -o AIBoard.o AIBoard.cc	
@@ -20,13 +21,16 @@ bg.o: bg.h boardList.o boardList.h rollsList.o rollsList.h
 Board.o: Board.h rollsList.o rollsList.h
 	$(CC) $(CFLAGS) -c -o Board.o Board.cc rollsList.o $(LDFLAGS)
 
+BoardNoRolls.o: Board.h
+	$(CC) $(CFLAGS) -c -o BoardNoRolls.o Board.cc $(LDFLAGS)
+
 Backgammon.o: Backgammon.h Board.o Board.h
 	$(CC) $(CFLAGS) -c -o Backgammon.o Backgammon.cc Board.o $(LDFLAGS)
 
 #main.o: main.cc main.h Backgammon.h
 #	$(CC) $(CFLAGS) -c -o main.o main.cc main.h Backgammon.o $(LDFLAGS)
 
-GUItest: Board.o Backgammon.o main.h
+GUItest: BoardNoRolls.o Backgammon.o main.h
 	$(CC) $(CFLAGS) -o GUItest main.cc Backgammon.o Board.o $(LDFLAGS)
 
 clean:

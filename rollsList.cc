@@ -36,7 +36,7 @@ int RollsList::pop(){
   int val;
   header = header->next;
   val = temp->roll;
-  free(temp);
+  //  free(temp);
   return val;
 }
 
