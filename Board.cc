@@ -236,6 +236,27 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   //selectedsection is the index of the piece selected by the mouse click
   printf("%d,%d: %d\n",x,y,selectedsection);
   
+/* New commented code outline                                                 
+  - If (RollsList == isEmpty())                                                 
+     - Roll two dice and add them to the respective rolls list                  
+  - If (player's turn and player's RollsList != isEmpyt())                      
+     - if click roll, then roll                                                 
+     - if pieces are on the bar, selected piece equals the bar                  
+     - if not and no pieces are selected, selectedpiece = selectedsection       
+          - Calculate moves for that piece                                      
+     - if not and a piece is selected,                                          
+          - if selected section is in movesList, attempt move                   
+          - if not, selectedpiece = selectedsection                             
+          - if (rolls list is empty)                                            
+              - Display "Thinking"                                              
+              - Run AI code (Roll dice, calculate moves, etc.)                  
+              - Update board w/ AI's move                                       
+                                                                                
+  - If (player_end or opponent_end has 15 chips)                      
+    - Display an endscreen based on who won?                                    
+    - wait 60 seconds                                                           
+    - exit                                                                      
+   */
 
  /* HERES THE FIRST COMMENT BRACKET. Sorry for commenting out all your code lol
  
