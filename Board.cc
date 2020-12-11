@@ -2,6 +2,8 @@
 #include "Board.h"
 #include "rollsList.h"
 
+currentRolls = new RollsList::RollsList();
+
 Board::Board(wxFrame *parent)
   : wxPanel(parent, wxID_ANY,wxDefaultPosition,
 	    wxDefaultSize, wxBORDER_NONE)
@@ -217,9 +219,10 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   int y = event.GetLogicalPosition(dc).y/SquareHeight();
 
   if (x == 14 && y > 4 && y < 8) { //they rolled the dice!
-    if(roll1*roll2 == 0) {
+    if(currentRolls -> RollsList::isEmpty()) {
       roll1 = (rand() % 6) + 1;
       roll2 = (rand() % 6) + 1;
+      currentRolls = RollsList::RollsList(roll1, roll2);
     }
   }
   
