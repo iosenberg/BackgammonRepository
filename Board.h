@@ -21,6 +21,7 @@ class Board : public wxPanel
   bool rollsEmpty = true;
   bool playerturn = true;
   bool pieceChosen = false;
+  bool isDoubles = false;
   
  protected:
   void OnPaint(wxPaintEvent& event);
