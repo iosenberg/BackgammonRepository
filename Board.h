@@ -18,7 +18,10 @@ class Board : public wxPanel
   int roll1 = 0;
   int roll2 = 0;
   int currentRolls[4] = {-1,-1,-1,-1}; // -1 means no roll present
-
+  bool rollsEmpty = true;
+  bool playerturn = true;
+  bool pieceChosen = false;
+  
  protected:
   void OnPaint(wxPaintEvent& event);
   void OnClick(wxMouseEvent& event);

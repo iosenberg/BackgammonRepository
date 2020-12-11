@@ -238,7 +238,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   int y = event.GetLogicalPosition(dc).y/SquareHeight();
     
   if (x == 14 && y > 4 && y < 8) { //they rolled the dice!
-    // if (currentRolls == {-1,-1,-1,-1}){
+    if (rollsEmpty){
       roll1 = (rand() % 6) + 1;
       roll2 = (rand() % 6) + 1;
       if (roll1 == roll2) { // if they roll doubles
@@ -247,7 +247,8 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
 	currentRolls[0] = roll1;
 	currentRolls[1] = roll2;
       }
-      // } 
+      rollsEmpty = false;
+    } 
   }
   
   int selectedsection = -1;
@@ -258,32 +259,47 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     roll1 = 0;
     roll2 = 0;
   }
-
-  selectedpiece = selectedsection;
-  //selectedsection is the index of the piece selected by the mouse click
-
   
-/* New commented code outline                                                 
-  - If (RollsList == isEmpty())                                                 
-     - Roll two dice and add them to the respective rolls list                  
-  - If (player's turn and player's RollsList != isEmpyt())                      
-     - if click roll, then roll                                                 
-     - if pieces are on the bar, selected piece equals the bar                  
-     - if not and no pieces are selected, selectedpiece = selectedsection       
-          - Calculate moves for that piece                                      
-     - if not and a piece is selected,                                          
-          - if selected section is in movesList, attempt move                   
-          - if not, selectedpiece = selectedsection                             
-          - if (rolls list is empty)                                            
-              - Display "Thinking"                                              
-              - Run AI code (Roll dice, calculate moves, etc.)                  
-              - Update board w/ AI's move                                       
+  //- If (player's turn and player's RollsList != isEmpyt())                      
+  if(playersturn && !rollsEmpty){                                               
+  //- if pieces are on the bar, selected piece equals the bar                  
+    if(0 < boardArray[25]) selectedpiece = -1;
+    // - if not and no pieces are selected, selectedpiece = selectedsection
+    else if(0 == boardArray[25] && !pieceChosen) selectedpiece = selectedsection;
+  //      - Calculate moves for that piece                                      
+  // - if not and a piece is selected,
+    else if(0 == boardArray[25] && pieceChosen){
+  //      - if selected section is in movesList, attempt move
+      if(selectedsection == movesList[0]){
+	// Insert code to move chip;
+	movesList[0] = -1;
+	if(movesList[1] == -1){
+	  rollsEmpty = true;
+	  pieceChosen = false;
+	}
+      } else if (selectedsection == movesList[1]){
+	// Insert code to move chip;
+	movesList[1] = -1;
+	if(movesList[0] == -1){
+	  rollsEmpty = true;
+	  pieceChosen = false;
+	}
+      }
+  //      - if not, selectedpiece = selectedsection
+      else selectedpiece = selectedsection;
+    }
+  //      - if (rolls list is empty)
+  } if(playersturn && rollsEmpty){
+    
+  //          - Display "Thinking"                                              
+  //          - Run AI code (Roll dice, calculate moves, etc.)                  
+  //          - Update board w/ AI's move
+  }
                                                                                 
-  - If (player_end or opponent_end has 15 chips)                      
-    - Display an endscreen based on who won?                                    
-    - wait 60 seconds                                                           
-    - exit                                                                      
-   */
+  //- If (player_end or opponent_end has 15 chips)                      
+  //- Display an endscreen based on who won?                                    
+  //- wait 60 seconds                                                           
+  //- exit                                                                      
 
  /* HERES THE FIRST COMMENT BRACKET. Sorry for commenting out all your code lol
  
