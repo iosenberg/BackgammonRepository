@@ -238,16 +238,19 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   int y = event.GetLogicalPosition(dc).y/SquareHeight();
     
   if (x == 14 && y > 4 && y < 8) { //they rolled the dice!
-    if (rollsEmpty){
+    if (!playersturn && rollsEmpty){
       roll1 = (rand() % 6) + 1;
       roll2 = (rand() % 6) + 1;
       if (roll1 == roll2) { // if they roll doubles
 	for(int r=0; r<4; r++) currentRolls[r] = roll1;
+	isDoubles = true;
       } else{
 	currentRolls[0] = roll1;
 	currentRolls[1] = roll2;
+	isDoubles = false;
       }
       rollsEmpty = false;
+      playersturn = true;
     } 
   }
   
@@ -259,47 +262,46 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     roll1 = 0;
     roll2 = 0;
   }
-  
-  //- If (player's turn and player's RollsList != isEmpyt())                      
-  if(playersturn && !rollsEmpty){                                               
-  //- if pieces are on the bar, selected piece equals the bar                  
+                       
+  if(playersturn && !rollsEmpty){                                                                
     if(0 < boardArray[25]) selectedpiece = -1;
-    // - if not and no pieces are selected, selectedpiece = selectedsection
-    else if(0 == boardArray[25] && !pieceChosen) selectedpiece = selectedsection;
-  //      - Calculate moves for that piece                                      
-  // - if not and a piece is selected,
-    else if(0 == boardArray[25] && pieceChosen){
-  //      - if selected section is in movesList, attempt move
+    else if(0 == boardArray[25] && !pieceChosen){
+      selectedpiece = selectedsection;
+          
+    }else if(0 == boardArray[25] && pieceChosen){
       if(selectedsection == movesList[0]){
-	// Insert code to move chip;
+	cout << "Fair move! Section 1" << endl;
 	movesList[0] = -1;
 	if(movesList[1] == -1){
+	  cout << "All done." << endl;
 	  rollsEmpty = true;
 	  pieceChosen = false;
 	}
       } else if (selectedsection == movesList[1]){
-	// Insert code to move chip;
+	cout << "Fair move! Section 2" << endl;
 	movesList[1] = -1;
 	if(movesList[0] == -1){
+	  cout << "All done." << endl;
 	  rollsEmpty = true;
 	  pieceChosen = false;
 	}
       }
-  //      - if not, selectedpiece = selectedsection
       else selectedpiece = selectedsection;
     }
-  //      - if (rolls list is empty)
   } if(playersturn && rollsEmpty){
-    
+	  playersturn = false;
+	  cout << "AI's turn!" << endl;
   //          - Display "Thinking"                                              
   //          - Run AI code (Roll dice, calculate moves, etc.)                  
   //          - Update board w/ AI's move
   }
                                                                                 
-  //- If (player_end or opponent_end has 15 chips)                      
-  //- Display an endscreen based on who won?                                    
+  if(playerendslot == 15 || opponentendslot == 15){                      
+  	cout << "Game ends!" << endl;
+	  //- Display an endscreen based on who won?                                    
   //- wait 60 seconds                                                           
-  //- exit                                                                      
+  //- exit                                         
+  }
 
  /* HERES THE FIRST COMMENT BRACKET. Sorry for commenting out all your code lol
  
