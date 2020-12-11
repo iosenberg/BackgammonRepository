@@ -16,7 +16,7 @@ public:
   RollNode* header;
 
   RollsList();
-  RollsList(int, int);
+  void setRolls(int, int);
   int isEmpty();
   int pop();
   int first();

@@ -11,7 +11,7 @@ RollsList::RollsList() {
   header = NULL;
 }
 
-RollsList::RollsList(int roll1, int roll2) {
+void RollsList::setRolls(int roll1, int roll2) {
   header = new RollNode(roll1);
   RollNode* temp = new RollNode(roll2);
   header->next = temp;
@@ -22,6 +22,7 @@ RollsList::RollsList(int roll1, int roll2) {
     temp2->next = temp;
   } 
 }
+
 
 int RollsList::isEmpty(){
   return !header;
@@ -36,7 +37,7 @@ int RollsList::pop(){
   int val;
   header = header->next;
   val = temp->roll;
-  //  free(temp);
+  delete temp;
   return val;
 }
 
