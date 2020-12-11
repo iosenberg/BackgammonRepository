@@ -1,6 +1,7 @@
 #include <iostream>
 #include "boardList.h"
 #include "rollsList.h"
+#include "Board.h"
 using namespace std;
 
 //generates all possible moves for a single roll (returns stack of board instances)
@@ -101,21 +102,41 @@ BoardList* generateMoves(board* board1, RollsList* rolls){
 }
 
 //BoardList->BoardNode->boardData->boardArray,oppenentBar, etc
-board* bestMove(board* currentBoard){
-  RollsList* rolls = new RollsList(1,2);
-  BoardList* refinedMoves = generateMoves(currentBoard, rolls);
+board* bestMove(Board* currentBoard, int roll1, int roll2){
+  board* currentBackwardBoard;
+  for(int i = 0; i<24; i++){
+    currentBackwardBoard->boardArray[i] = currentBoard->boardArray[i];
+  }
+  currentBackwardBoard->bar = currentBoard->currentBoard->myendslot;
+  currentBackwardBoard->opponentBar = currentBoard->opponentendslot;
+  board* currentAIBoard;
+  currentAIBoard = currentBackwardBoard->reverseBoard();
+  RollsList* rolls = new RollsList(roll1,roll2);
+  BoardList* refinedMoves = generateMoves(currentAIBoard, rolls);
   BoardNode* current = refinedMoves->header;
   bool check = true;
   while(current!=NULL){
+    int sumNew = 0;
+    int sumOriginal = 0;
     for(int i = 0; i<24; i++){
       if(current->boardData->boardArray[i] == 1){
 	check = false;
       }
-      if(current->boardData->opponentBar > currentBoard->opponentBar){
-	current->boardData->score++;
+      if(current->boardData->boardArray[i] > 0){
+	sumNew += current->boardData->boardArray[i];
       }
+      if(currentAIBoard->boardArray[i] > 0){
+	sumOriginal += currentAIBoard->boardArray[i];
+      }
+      
+    }
+    if(current->boardData->opponentBar > currentAIBoard->opponentBar){
+	current->boardData->score++;
     }
     if (check){
+      current->boardData->score++;
+    }
+    if(sumNew<sumOriginal){
       current->boardData->score++;
     }
     
@@ -132,8 +153,16 @@ board* bestMove(board* currentBoard){
     current = current->next;
   }
   return bestBoard;
-}
+  //static int r[8];
+  //int i = 0;
+  //for(int j = 0; j < 24; j++){
+  //  if (currentAIBoard->boardArray[j] != bestBoard->boardArray[j]){
+  //    r[i] = j;
+  //  }
 	
+}
+
+
 
 
 //function for testing
@@ -176,7 +205,8 @@ int main(){
   board4.setTestBoard();
   board4.printBoard();
   BoardList* moremoves = generateMoves(&board4, rolls);
-  board* bestBoard = bestMove(&board4);
+  Board* guiBoard = new Board();
+  board* bestBoard = bestMove(guiBoard, 1, 2);
   bestBoard->printBoard();
   
   
