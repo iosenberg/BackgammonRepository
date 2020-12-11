@@ -13,7 +13,8 @@ class Board : public wxPanel
   int mybar;
   int opponentbar;
   int selectedpiece = -1; //generally selected piece (as opposed to piece selected by mouse)
-  int movesList[2] = {-1}; //do whatever you want with this, @Veronica
+  int movesList[3] = {2,4,19}; //do whatever you want with this, @Veronica
+  int movesListSize = sizeof(movesList)/sizeof(movesList[0]); //Same with this. This is just here so I could code the triangles
   int roll1 = 0;
   int roll2 = 0;
 

@@ -66,28 +66,22 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
   dc.SetBrush(wxBrush(wxColor(198,140,83)));  //51, 10, 0 - for frame!!
   dc.DrawRectangle(SquareWidth()-1,SquareHeight()-1,6*SquareWidth()+2,11*SquareHeight()+3);
   dc.DrawRectangle(8*SquareWidth()-1,SquareHeight()-1,6*SquareWidth()+2,11*SquareHeight()+3);
-  /*
-  for (int i = 0;i < BoardWidth; ++i) {
-    for (int j = 0; j < BoardHeight; ++j) {
-      if (i==0 || j == 0 || i == BoardWidth/2 -1 || i >= BoardWidth-2 || j == BoardHeight-1) {
-	dc.SetPen(wxPen(wxColor(153,38,0)));//51
-	dc.SetBrush(wxBrush(wxColour(153,38,0)));
-      }
-      else {
-	dc.SetPen(wxPen(wxColor(198,140,83)));
-	dc.SetBrush(wxBrush(wxColour(198,140,83)));
-      }
-      dc.DrawRectangle(i*SquareWidth(),j*SquareHeight(),SquareWidth(),SquareHeight());
-    }
-  }
-  */
 
   //Draws the triangles
   bool color = true; // true is white, false is brown
   dc.SetPen(wxPen(wxColor(115,77,38)));
   dc.SetBrush(wxBrush(wxColour(115,77,38)));
   for (int i = 1; i < BoardWidth - 2; ++i) {
-    if(i!=BoardHeight/2 +1) {     
+    if(i!=BoardHeight/2 +1) {
+
+      for (int j=0;j<movesListSize;++j) {
+	if (ToArray(i, 11) == movesList[j]) {
+	  dc.SetPen(wxPen(wxColor(255,255,0)));
+	  dc.SetBrush(wxBrush(wxColor(255,255,0)));
+	}
+      }
+      
+      
       wxPoint points1[] = {wxPoint(i*SquareWidth(), (BoardHeight-1)*SquareHeight()),
 			   wxPoint((i+1)*SquareWidth()-1, (BoardHeight-1)*SquareHeight()),
 			   wxPoint(i*SquareWidth()+SquareWidth()/2,(BoardHeight-6)*SquareHeight())};
@@ -103,6 +97,13 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
 	dc.SetBrush(wxBrush(wxColor(115,77,38)));
       }
       color = !color;
+
+      for (int j=0;j<movesListSize;++j) {
+	  if (ToArray(i, 1) == movesList[j]) {
+	    dc.SetPen(wxPen(wxColor(255,255,0)));
+	    dc.SetBrush(wxBrush(wxColor(255,255,0)));
+	  }
+	}
       
       wxPoint points2[] = {wxPoint(i*SquareWidth(), SquareHeight()),
 			   wxPoint((i+1)*SquareWidth()-1, SquareHeight()),
@@ -177,6 +178,7 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
   dc.SetBrush(wxBrush(wxColor(128,10,0)));
   dc.DrawRectangle(14*SquareWidth(),SquareHeight()-1,SquareWidth(),4*SquareHeight()+2);
   dc.DrawRectangle(14*SquareWidth(),8*SquareHeight()-1,SquareWidth(),4*SquareHeight()+3);
+
   
   //Draws the pieces
   for(int i=0;i<26;++i) { 
