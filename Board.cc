@@ -236,14 +236,18 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   wxWindowDC dc(this);
   int x = event.GetLogicalPosition(dc).x/SquareWidth();
   int y = event.GetLogicalPosition(dc).y/SquareHeight();
-  int currentRolls[4] = {-1};
-  
+    
   if (x == 14 && y > 4 && y < 8) { //they rolled the dice!
-    if(currentRolls) {
+    // if (currentRolls == {-1,-1,-1,-1}){
       roll1 = (rand() % 6) + 1;
       roll2 = (rand() % 6) + 1;
-      if (rolls1 == roll2) 
-    }
+      if (roll1 == roll2) { // if they roll doubles
+	for(int r=0; r<4; r++) currentRolls[r] = roll1;
+      } else{
+	currentRolls[0] = roll1;
+	currentRolls[1] = roll2;
+      }
+      // } 
   }
   
   int selectedsection = -1;
@@ -325,13 +329,5 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   HERE'S THE LAST COMMENT BRACKET
   */
 
-
-  //Player Moves
-  //Change boardArray;
-  //Refresh()
-  //AI moves
-  //Change boardArray;
-
-  delete currentRolls;
   Refresh();
 }
