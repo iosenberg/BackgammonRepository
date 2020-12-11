@@ -15,8 +15,7 @@ class RollsList {
 public:
   RollNode* header;
 
-  RollsList();
-  void setRolls(int, int);
+  RollsList(int,int);
   int isEmpty();
   int pop();
   int first();
