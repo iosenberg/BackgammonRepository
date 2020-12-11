@@ -21,8 +21,8 @@ Board::Board(wxFrame *parent)
   boardArray[16] = 3;
   boardArray[18] = 5;
   boardArray[23] = -2;
-  mybar = 0;
-  opponentbar = 0;
+  myendslot = 0;
+  opponentendslot = 0;
 }
 
 int Board::ToArray(int x, int y)
@@ -42,6 +42,8 @@ int Board::ToArray(int x, int y)
 
 int Board::ToBoard(int i)
 {
+  if(i==24 || i==25)
+    return 7;
   int x;
   if(i>11) {
     x = i-11;
@@ -68,28 +70,31 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
   dc.SetBrush(wxBrush(wxColor(198,140,83)));  //51, 10, 0 - for frame!!
   dc.DrawRectangle(SquareWidth()-1,SquareHeight()-1,6*SquareWidth()+2,11*SquareHeight()+3);
   dc.DrawRectangle(8*SquareWidth()-1,SquareHeight()-1,6*SquareWidth()+2,11*SquareHeight()+3);
-  /*
-  for (int i = 0;i < BoardWidth; ++i) {
-    for (int j = 0; j < BoardHeight; ++j) {
-      if (i==0 || j == 0 || i == BoardWidth/2 -1 || i >= BoardWidth-2 || j == BoardHeight-1) {
-	dc.SetPen(wxPen(wxColor(153,38,0)));//51
-	dc.SetBrush(wxBrush(wxColour(153,38,0)));
-      }
-      else {
-	dc.SetPen(wxPen(wxColor(198,140,83)));
-	dc.SetBrush(wxBrush(wxColour(198,140,83)));
-      }
-      dc.DrawRectangle(i*SquareWidth(),j*SquareHeight(),SquareWidth(),SquareHeight());
-    }
-  }
-  */
 
   //Draws the triangles
   bool color = true; // true is white, false is brown
   dc.SetPen(wxPen(wxColor(115,77,38)));
   dc.SetBrush(wxBrush(wxColour(115,77,38)));
   for (int i = 1; i < BoardWidth - 2; ++i) {
-    if(i!=BoardHeight/2 +1) {     
+    if(i!=BoardHeight/2 +1) {
+
+      if(color) {
+	dc.SetPen(wxPen(wxColor(210,166,121)));
+	dc.SetBrush(wxBrush(wxColor(210,166,121)));
+      }
+      else {
+	dc.SetPen(wxPen(wxColor(115,77,38)));
+	dc.SetBrush(wxBrush(wxColor(115,77,38)));
+      }
+      
+      for (int j=0;j<movesListSize;++j) {
+	if (ToArray(i, 11) == movesList[j]) {
+	  dc.SetPen(wxPen(wxColor(255,255,0)));
+	  dc.SetBrush(wxBrush(wxColor(255,255,0)));
+	}
+      }
+      
+      
       wxPoint points1[] = {wxPoint(i*SquareWidth(), (BoardHeight-1)*SquareHeight()),
 			   wxPoint((i+1)*SquareWidth()-1, (BoardHeight-1)*SquareHeight()),
 			   wxPoint(i*SquareWidth()+SquareWidth()/2,(BoardHeight-6)*SquareHeight())};
@@ -105,6 +110,13 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
 	dc.SetBrush(wxBrush(wxColor(115,77,38)));
       }
       color = !color;
+
+      for (int j=0;j<movesListSize;++j) {
+	  if (ToArray(i, 1) == movesList[j]) {
+	    dc.SetPen(wxPen(wxColor(255,255,0)));
+	    dc.SetBrush(wxBrush(wxColor(255,255,0)));
+	  }
+	}
       
       wxPoint points2[] = {wxPoint(i*SquareWidth(), SquareHeight()),
 			   wxPoint((i+1)*SquareWidth()-1, SquareHeight()),
@@ -174,19 +186,31 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
       }
     }
 
-  //Draws the bar for both teams, and populates it appropriately
+  //Draws the end slot for both teams, and populates it appropriately
   dc.SetPen(wxPen(wxColor(51,10,0)));
   dc.SetBrush(wxBrush(wxColor(128,10,0)));
   dc.DrawRectangle(14*SquareWidth(),SquareHeight()-1,SquareWidth(),4*SquareHeight()+2);
   dc.DrawRectangle(14*SquareWidth(),8*SquareHeight()-1,SquareWidth(),4*SquareHeight()+3);
+
+  dc.SetBrush(wxBrush(wxColor(0,0,0)));
+  for (int i=0;i<opponentendslot;i++) {
+    dc.DrawRectangle(14*SquareWidth()+1,SquareHeight()+i*((4*SquareHeight()+2)/15),SquareWidth()-1,(4*SquareHeight()+2)/15);
+  }
+  dc.SetBrush(wxBrush(wxColor(255,255,255)));
+  for (int i=0;i<myendslot;i++) {
+    dc.DrawRectangle(14*SquareWidth()+1,(BoardHeight-1)*SquareHeight()-2-(i+0.5)*((4*SquareHeight()+3)/15),SquareWidth()-2,(4*SquareHeight()+3)/15);
+  }  
   
   //Draws the pieces
   for(int i=0;i<26;++i) { 
     if(boardArray[i] != 0) {
       int n;
       int c;
-      if (boardArray[i] < 0) {
-	n = -1*boardArray[i];
+      if (boardArray[i] < 0 || i == 25) {
+	if(boardArray[i]<0)
+	  n = -1*boardArray[i];
+	else
+	  n = boardArray[i];
 	c = 0;
       } else {
 	n = boardArray[i];
@@ -200,12 +224,10 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
 	  dc.SetBrush(wxBrush(wxColor(255,255,0)));
 	}
 	int x = ToBoard(i) * SquareWidth() + SquareWidth()/2 - 1;
-	if(i<12)
+	if(i<12 || i==24)
 	  dc.DrawCircle(x,(j+1)*SquareHeight()+SquareHeight()/2,SquareWidth()/3);
-	else if (i<24) 
+	else
 	  dc.DrawCircle(x,(BoardHeight-j-1)*SquareHeight()-SquareHeight()/2,SquareWidth()/3);
-	else if (i==25){}
-	else {}
       }
     }
   }
@@ -237,7 +259,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
 
   selectedpiece = selectedsection;
   //selectedsection is the index of the piece selected by the mouse click
-  printf("%d,%d: %d\n",x,y,selectedsection);
+
   
 /* New commented code outline                                                 
   - If (RollsList == isEmpty())                                                 
