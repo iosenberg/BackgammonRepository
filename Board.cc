@@ -1,8 +1,5 @@
 #include <iostream>
 #include "Board.h"
-#include "rollsList.h"
-
-currentRolls = new RollsList::RollsList();
 
 Board::Board(wxFrame *parent)
   : wxPanel(parent, wxID_ANY,wxDefaultPosition,
@@ -239,12 +236,13 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   wxWindowDC dc(this);
   int x = event.GetLogicalPosition(dc).x/SquareWidth();
   int y = event.GetLogicalPosition(dc).y/SquareHeight();
-
+  int currentRolls[4] = {-1};
+  
   if (x == 14 && y > 4 && y < 8) { //they rolled the dice!
-    if(currentRolls -> RollsList::isEmpty()) {
+    if(currentRolls) {
       roll1 = (rand() % 6) + 1;
       roll2 = (rand() % 6) + 1;
-      currentRolls = RollsList::RollsList(roll1, roll2);
+      if (rolls1 == roll2) 
     }
   }
   
@@ -334,6 +332,6 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   //AI moves
   //Change boardArray;
 
-  
+  delete currentRolls;
   Refresh();
 }

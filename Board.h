@@ -17,6 +17,7 @@ class Board : public wxPanel
   int movesListSize = sizeof(movesList)/sizeof(movesList[0]); //Same with this. This is just here so I could code the triangles
   int roll1 = 0;
   int roll2 = 0;
+  int currentRolls[4] = {-1,-1,-1,-1}; // -1 means no roll present
 
  protected:
   void OnPaint(wxPaintEvent& event);
