@@ -54,7 +54,7 @@ int Board::ToBoard(int i)
   }
   else {
     x = BoardWidth-i-4;
-    if (i<7) x++;
+    if (i<6) x++;
   }
   return x;    
 }
@@ -364,6 +364,10 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
 	    movesList[counter] = -1;
 	    continue;
 	  }
+	  // If bearOff == true and destination > 23, set destination to 24
+	  else if(isBearOff && destination > 23) {
+	    movesList[counter] = 24;
+	  }
 	  // Else the space is available
 	  else movesList[counter] = destination;
 	}
@@ -388,9 +392,22 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     // boardArray = AIMove(&boardArray, roll1, roll2);
     // Refresh()
   }
-  
+
+  // Check if the player can bear-off
+  int chip_sum = 0;
+  for (int index=18; index < 24; index++){
+    if(boardArray[index] > 0) chip_sum += boardArray[index];
+  }
+  chip_sum += myendslot;
+  if(15 == chip_sum) isBearOff = true;
+  else {
+    isBearOff = false;
+    cout << "Player can bear-off!" << endl;
+  }
   if(myendslot == 15 || opponentendslot == 15){                      
-    //- Display an endscreen based on who won?                                    
+    //- Display an endscreen based on who won?
+    if (myendslot == 15) cout << "Congrats! Player won!" << endl;
+    else if (opponentendslot == 15) cout << "Too bad, the AI won." << endl;
     //- wait 60 seconds                                                           
     //- exit                                         
   }
