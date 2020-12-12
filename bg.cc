@@ -170,14 +170,5 @@ int* AIMove(int* boardArray, int roll1, int roll2){
   return newBoardArray;
 }
 
-int main(){
-  int *p;
-  int boardArray[26] = {2, 0, 0, 0, 0, -5, 0, 0, 0, 0, 2, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 1, 0};
-  p = AIMove(boardArray, 1, 2);
-  for (int i = 0; i < 26; i++){
-    cout << p[i] << " ";
-  }
-  cout << endl;
-  return 0;
-}
+
   
