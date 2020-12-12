@@ -2,14 +2,16 @@
 #define BOARD_H
 
 #include <wx/wx.h>
+#include <iostream>
 #include <list>
+#include <ctime>
+#include <cstdlib>
 #include "bg.h"
 
 class Board : public wxPanel
 {
  public:
   Board(wxFrame *parent);
-  void Start();
   int boardArray[26] = {0};
   int myendslot;
   int opponentendslot;
@@ -40,8 +42,8 @@ class Board : public wxPanel
   int SquareWidth() { return GetClientSize().GetWidth() / BoardWidth; }
   int SquareHeight() { return GetClientSize().GetHeight() / BoardHeight; }
   wxStatusBar *m_stsbar;
-
-  //  AI gameAI();
+  
+  AI *gameAI;
 };
 
 #endif

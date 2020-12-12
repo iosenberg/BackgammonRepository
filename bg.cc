@@ -1,6 +1,6 @@
 #include "bg.h"
 
-AI::AI(int n){cout << n << endl;}
+AI::AI() {}
 
 //generates all possible moves for a single roll (returns stack of board instances)
 BoardList* AI::generateMovesForSingleRoll(board* board1, int roll){

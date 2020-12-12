@@ -9,7 +9,7 @@
 
 class AI {
  public:
-  AI(int n);
+  AI();
   BoardList* generateMovesForSingleRoll(board* board1, int roll);
   BoardList* generateAllMoves(board* board1, RollsList* rolls, int numRolls);
   BoardList* generateMoves(board* board1, RollsList* rolls);

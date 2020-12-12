@@ -1,6 +1,3 @@
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
 #include "Board.h"
 using namespace std;
 
@@ -26,7 +23,7 @@ Board::Board(wxFrame *parent)
   myendslot = 0;
   opponentendslot = 0;
 
-  //  gameAI = new AI();
+  gameAI = new AI();
 }
 
 int Board::ToArray(int x, int y)
@@ -210,7 +207,7 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
     if(boardArray[i] != 0) {
       int n;
       int c;
-      if (boardArray[i] < 0 || i == 25) {
+      if (boardArray[i] < 0 || i == 24) {
 	if(boardArray[i]<0)
 	  n = -1*boardArray[i];
 	else
@@ -228,7 +225,7 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
 	  dc.SetBrush(wxBrush(wxColor(255,255,0)));
 	}
 	int x = ToBoard(i) * SquareWidth() + SquareWidth()/2 - 1;
-	if(i<12 || i==24)
+	if(i<12 || i==25)
 	  dc.DrawCircle(x,(j+1)*SquareHeight()+SquareHeight()/2,SquareWidth()/3);
 	else
 	  dc.DrawCircle(x,(BoardHeight-j-1)*SquareHeight()-SquareHeight()/2,SquareWidth()/3);
@@ -238,7 +235,6 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
 
   //Displays a "Thinking" banner when the AI is calculating moves.
   if(playersturn && rollsEmpty) {
-    cout << "Hewwo?" << endl;
     dc.SetTextForeground(wxColor(0,0,0));
     dc.SetFont(wxFont(SquareWidth()*2,wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
 		      wxFONTWEIGHT_NORMAL,false));
@@ -392,16 +388,20 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     roll1 = (rand() % 6) + 1;
     roll2 = (rand() % 6) + 1;
     Refresh();
+    Update();
+
+    sleep(3);
     
     playersturn = false;
     pieceChosen = false;
 
-    // Run AI code
-    AI gameAI(1);
-    int* boardPointer = gameAI.AIMove(boardArray, roll1, roll2);
-    for (int i=0;i<26;i++) 
-    	boardArray[i] = *(boardPointer + i);
-    cout << "Player's turn" << endl;  
+    //Run AI code
+    gameAI = new AI();
+    int* boardPointer = gameAI->AIMove(boardArray,roll1,roll2);
+    for (int i=0;i<26;i++)
+      boardArray[i] = *(boardPointer + i);
+    roll1=0;
+    roll2=0;
   }
 
   // Check if the player can bear-off
@@ -421,5 +421,6 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     //- wait 60 seconds                                                           
     //- exit                                         
   }
+  
   Refresh();
 }
