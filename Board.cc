@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Board.h"
-#include "bg.h"
+//#include "bg.h"
 
 Board::Board(wxFrame *parent)
   : wxPanel(parent, wxID_ANY,wxDefaultPosition,
@@ -304,18 +304,21 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
 	endspace = movesList[0];
 	// If there is 1 brown, move the brown to 24 and move the white to destination
 	if(boardArray[endspace] == -1) {
-	  boardArray[startspace] -= 1;
+	  if(startspace > -1) boardArray[startspace] -= 1;
+	  else boardArray[25] -=1;
 	  boardArray[endspace] += 2;
 	  boardArray[24] += 1; // Add one to brown's bar
 	}
 	// If destination is > 23, remove the chip and add 1 to myendslot
 	else if(endspace > 23) {
-	  boardArray[startspace] -=1;
+	  if(startspace > -1) boardArray[startspace] -= 1;
+          else boardArray[25] -=1;
 	  myendslot += 1;
 	}
 	// Else, move the chip
 	else {
-	  boardArray[startspace] -= 1;
+	  if(startspace > -1) boardArray[startspace] -= 1;
+          else boardArray[25] -=1;
 	  boardArray[endspace] += 1;
 	}
 	movesList[0] = -1;
@@ -327,18 +330,21 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
 	endspace = movesList[1];
         // If there is 1 brown, move the brown to 24 and move the white to destination         
         if(boardArray[endspace] == -1) {
-          boardArray[startspace] -= 1;	
+          if(startspace > -1) boardArray[startspace] -= 1;
+          else boardArray[25] -=1;	
           boardArray[endspace] += 2;
           boardArray[24] += 1; // Add one to brown's bar                                  
         }
         // If destination is > 23, remove the chip and add 1 to myendslot                    
         else if(endspace > 23) {
-          boardArray[startspace] -=1;
+          if(startspace > -1) boardArray[startspace] -= 1;
+          else boardArray[25] -=1;
           myendslot += 1;
         }
         // Else, move the chip                 
         else {
-          boardArray[startspace] -= 1;
+          if(startspace > -1) boardArray[startspace] -= 1;
+          else boardArray[25] -=1;
           boardArray[endspace] += 1;
         }
 	movesList[1] = -1;
@@ -347,21 +353,24 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
 	  pieceChosen = false;
 	}
       } else if(selectedsection == movesList[2]){ // Moves list section 3 (doubles only)
-	endspace = movesList[0];
+	endspace = movesList[2];
         // If there is 1 brown, move the brown to 24 and move the white to destination 
         if(boardArray[endspace] == -1) {
-          boardArray[startspace] -= 1;	
+          if(startspace > -1) boardArray[startspace] -= 1;
+          else boardArray[25] -=1;	
           boardArray[endspace] += 2;
           boardArray[24] += 1; // Add one to brown's bar                                                         
         }
         // If destination is > 23, remove the chip and add 1 to myendslot                                        
         else if(endspace > 23) {
-          boardArray[startspace] -=1;
+          if(startspace > -1) boardArray[startspace] -= 1;
+          else boardArray[25] -=1;
           myendslot += 1;
         }
         // Else, move the chip                                                                 
         else {
-          boardArray[startspace] -= 1;
+          if(startspace > -1) boardArray[startspace] -= 1;
+          else boardArray[25] -=1;
           boardArray[endspace] += 1;
         }                                                          
 	movesList[2] = -1;
@@ -370,21 +379,24 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
           pieceChosen = false;
         }
       } else if (selectedsection == movesList[3]){ // Moves list section 4 (doubles only)
-	endspace = movesList[0];
+	endspace = movesList[3];
         // If there is 1 brown, move the brown to 24 and move the white to destination  
         if(boardArray[endspace] == -1) {
-          boardArray[startspace] -= 1;	
+          if(startspace > -1) boardArray[startspace] -= 1;
+          else boardArray[25] -=1;	
           boardArray[endspace] += 2;
           boardArray[24] += 1; // Add one to brown's bar                                
         }
         // If destination is > 23, remove the chip and add 1 to myendslot      
         else if(endspace > 23) {
-          boardArray[startspace] -=1;
+          if(startspace > -1) boardArray[startspace] -= 1;
+          else boardArray[25] -=1;
           myendslot += 1;
         }
         // Else, move the chip                                                                  
         else {
-          boardArray[startspace] -= 1;
+          if(startspace > -1) boardArray[startspace] -= 1;
+          else boardArray[25] -=1;
           boardArray[endspace] += 1;
         }
         movesList[3] = -1;
@@ -402,7 +414,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   //          - Run AI code (Roll dice, calculate moves, etc.)
 	  int AIroll1 = (rand() % 6) + 1;
 	  int AIroll2 = (rand() % 6) + 1;
-	  boardArray = AIMove(&boardArray, AIroll1, AIroll2);
+	  // boardArray = AIMove(&boardArray, AIroll1, AIroll2);
   //          - Update board w/ AI's move
   }
                                                                                 
