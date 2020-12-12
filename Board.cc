@@ -269,13 +269,8 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   int selectedsection = -1;
   
   // Collects mouse position
-  if(x>0)  selectedsection = ToArray(x,y);
-  /*if(selectedsection != -1){ 
-    roll1 = 0;
-    roll2 = 0;
-    }*/
-  
-  //  selectedpiece = selectedsection;
+  if (x > 0) selectedsection = ToArray(x,y);
+
                        
   if(playersturn && !rollsEmpty){
   
@@ -304,15 +299,19 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
 	    else boardArray[25] -=1;
 	    boardArray[endspace] += 1;
 	  }
+	  // Sets the roll in currentRolls used to 0.
 	  currentRolls[i] = 0;
+	  // If all the rolls are empty, rollsEmpty = true
 	  if(currentRolls[0] == 0 && currentRolls[1] == 0 && currentRolls[2] == 0 && currentRolls[3] == 0){
 	    rollsEmpty = true;
 	    std::cout << "Rolls is now empty." << endspace << std::endl;
 	  }
+	  // Resets movesList and deselects piece
 	  movesList[i] = -1;
 	  selectedpiece = -1;
 	  pieceChosen = false;
 	}
+	// Also part of reseting movesList. Makes everything -1.
 	else movesList[i] = -1;
       }
 
@@ -367,7 +366,12 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
       
       std::cout << "Your possible moves are: " << movesList[0] << ", " << movesList[1] << ", " <<  movesList[2] << ", and " << movesList[3] << std::endl;
     }
-  } if(playersturn && rollsEmpty){
+  }
+
+  // If it's the AI's turn
+  if(playersturn && rollsEmpty){
+    // Rolls for the AI (displays the rolls on the dice)
+    // And displays "Thinking"
     roll1 = (rand() % 6) + 1;
     roll2 = (rand() % 6) + 1;
     Refresh();
@@ -376,8 +380,8 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     pieceChosen = false;
     
     // Run AI code (Roll dice, calculate moves, etc.)
-    // boardArray = AIMove(&boardArray, AIroll1, AIroll2);
-    // Update board w/ AI's move
+    // boardArray = AIMove(&boardArray, roll1, roll2);
+    // Refresh()
   }
   
   if(myendslot == 15 || opponentendslot == 15){                      
