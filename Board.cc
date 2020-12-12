@@ -392,7 +392,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
 
     // Run AI code
     AI ai = AI();
-    boardArray = ai.AIMove((int*)boardArray, roll1, roll2);
+    boardArray = ai.AIMove(boardArray, roll1, roll2);
   }
 
   // Check if the player can bear-off
