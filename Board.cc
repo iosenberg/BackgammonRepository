@@ -391,7 +391,8 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     pieceChosen = false;
 
     // Run AI code
-    boardArray = bg.AIMove(&boardArray, roll1, roll2);
+    AI ai = AI();
+    boardArray = ai.AIMove((int*)boardArray, roll1, roll2);
   }
 
   // Check if the player can bear-off

@@ -1,7 +1,10 @@
 #include "bg.h"
 
+AI::AI() {
+}
+
 //generates all possible moves for a single roll (returns stack of board instances)
-BoardList* generateMovesForSingleRoll(board* board1, int roll){
+BoardList* AI::generateMovesForSingleRoll(board* board1, int roll){
   //create stack for possibleBoards
   BoardList* possibleBoards = new BoardList();
   //check if any chips on bar
@@ -55,7 +58,7 @@ BoardList* generateMovesForSingleRoll(board* board1, int roll){
   return possibleBoards;
 }
 
-BoardList* generateAllMoves(board* board1, RollsList* rolls, int numRolls){
+BoardList* AI::generateAllMoves(board* board1, RollsList* rolls, int numRolls){
   BoardList* returnLst = new BoardList();
   if (!rolls->isEmpty()) {
     int roll = rolls->first();
@@ -74,7 +77,7 @@ BoardList* generateAllMoves(board* board1, RollsList* rolls, int numRolls){
   return returnLst;
 }
 
-BoardList* generateMoves(board* board1, RollsList* rolls){
+BoardList* AI::generateMoves(board* board1, RollsList* rolls){
   BoardList* possibleMoves = new BoardList();
   if(rolls->header == rolls->header->next){
     possibleMoves = generateAllMoves(board1, rolls, 1);
@@ -98,7 +101,7 @@ BoardList* generateMoves(board* board1, RollsList* rolls){
 }
 
 //BoardList->BoardNode->boardData->boardArray,oppenentBar, etc
-board* bestMove(board* currentAIBoard, int roll1, int roll2){
+board* AI::bestMove(board* currentAIBoard, int roll1, int roll2){
   //need to free array and backward board
   RollsList* rolls = new RollsList(roll1,roll2);
   BoardList* refinedMoves = generateMoves(currentAIBoard, rolls);
@@ -144,7 +147,7 @@ board* bestMove(board* currentAIBoard, int roll1, int roll2){
   return bestBoard;
 }
 
-int* AIMove(int* boardArray, int roll1, int roll2){
+int* AI::AIMove(int* boardArray, int roll1, int roll2){
   board* currentBackwardBoard = new board();
   for(int i = 0; i<24; i++){
     currentBackwardBoard->boardArray[i] = boardArray[i];
@@ -167,8 +170,8 @@ int* AIMove(int* boardArray, int roll1, int roll2){
 }
 
 
-  
-int main(){
+/*  
+int AI::main(){
   int *p;
   int boardArray[26] = {0};
   p = AIMove(boardArray, 1, 2);
@@ -177,5 +180,5 @@ int main(){
   }
   cout << endl;
   return 0;
-}
+  }*/
   
