@@ -2,9 +2,7 @@ CC = g++
 CFLAGS = -g -pedantic -Wall -Wextra -Werror
 LDFLAGS = `wx-config --cxxflags` `wx-config --libs`
 
-all: GUItest 
-
-GUI: BoardNoRolls.o Backgammon.o GUItest
+all: Backgammon
 
 AIBoard.o: AIBoard.h
 	$(CC) $(CFLAGS) -c -o AIBoard.o AIBoard.cc	
@@ -18,20 +16,14 @@ boardList.o: boardList.h AIBoard.o AIBoard.h
 bg.o: bg.h boardList.o boardList.h rollsList.o rollsList.h
 	$(CC) $(CFLAGS) -c -o bg.o bg.cc boardList.o rollsList.o
 
-Board.o: Board.h rollsList.o rollsList.h
-	$(CC) $(CFLAGS) -c -o Board.o Board.cc rollsList.o $(LDFLAGS)
-
-BoardNoRolls.o: Board.h bg.o bg.h
-	$(CC) $(CFLAGS) -c -o BoardNoRolls.o Board.cc bg.o$(LDFLAGS)
+Board.o: Board.h rollsList.o rollsList.h bg.o bg.h
+	$(CC) $(CFLAGS) -c -o Board.o Board.cc rollsList.o bg.o $(LDFLAGS)
 
 Backgammon.o: Backgammon.h Board.o Board.h
 	$(CC) $(CFLAGS) -c -o Backgammon.o Backgammon.cc Board.o $(LDFLAGS)
 
-#main.o: main.cc main.h Backgammon.h
-#	$(CC) $(CFLAGS) -c -o main.o main.cc main.h Backgammon.o $(LDFLAGS)
-
-GUItest: BoardNoRolls.o Backgammon.o main.h
-	$(CC) $(CFLAGS) -o GUItest main.cc Backgammon.o Board.o $(LDFLAGS)
+Backgammon: Board.o Backgammon.o main.h
+	$(CC) $(CFLAGS) -o Backgammon main.cc Backgammon.o Board.o $(LDFLAGS)
 
 clean:
-	rm -f *~ *.o GUItest bg boardList rollsList
+	rm -f *~ *.o Backgammon
