@@ -275,194 +275,111 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     roll2 = 0;
     }*/
   
-  selectedpiece = selectedsection;
+  //  selectedpiece = selectedsection;
                        
   if(playersturn && !rollsEmpty){
   
     if(pieceChosen){
-      // Moves list section 1
-      if(selectedsection == movesList[0]){
-	endspace = movesList[0];
-	std::cout << "Moving " << startspace << " to " << endspace << std::endl;
-	// Capturing a piece
-	if(boardArray[endspace] == -1) {
-	  if(startspace > -1) boardArray[startspace] -= 1;
-	  else boardArray[25] -=1;
-	  boardArray[endspace] += 2;
-	  boardArray[24] += 1; // Add one to brown's bar
+      // @Veronica, I condensed this into a for loop
+      for (int i=0;i<4;i++) {
+	if(selectedsection == movesList[i] && pieceChosen){
+	  endspace = movesList[i];
+	  std::cout << "Moving " << startspace << " to " << endspace << std::endl;
+	  // Capturing a piece
+	  if(boardArray[endspace] == -1) {
+	    if(startspace > -1) boardArray[startspace] -= 1;
+	    else boardArray[25] -=1;
+	    boardArray[endspace] += 2;
+	    boardArray[24] += 1; // Add one to brown's bar
+	  }
+	  // Moving into home
+	  else if(endspace > 23) {
+	    if(startspace > -1) boardArray[startspace] -= 1;
+	    else boardArray[25] -=1;
+	    myendslot += 1;
+	  }
+	  // Else, move the chip
+	  else {
+	    if(startspace > -1) boardArray[startspace] -= 1;
+	    else boardArray[25] -=1;
+	    boardArray[endspace] += 1;
+	  }
+	  currentRolls[i] = 0;
+	  if(currentRolls[0] == 0 && currentRolls[1] == 0 && currentRolls[2] == 0 && currentRolls[3] == 0){
+	    rollsEmpty = true;
+	    std::cout << "Rolls is now empty." << endspace << std::endl;
+	  }
+	  movesList[i] = -1;
+	  selectedpiece = -1;
+	  pieceChosen = false;
 	}
-	// Moving into home
-	else if(endspace > 23) {
-	  if(startspace > -1) boardArray[startspace] -= 1;
-          else boardArray[25] -=1;
-	  myendslot += 1;
+	else movesList[i] = -1;
+      }
+
+      // If a piece is already selected and another piece is selected      
+      if(pieceChosen && selectedsection > -1){
+	if(boardArray[25] > 0) { // If white pieces on bar,
+	  selectedpiece = 25;
+	  startspace = -1; // Start on brown's "endslot"
 	}
-	// Else, move the chip
 	else {
-	  if(startspace > -1) boardArray[startspace] -= 1;
-          else boardArray[25] -=1;
-	  boardArray[endspace] += 1;
+	  selectedpiece = selectedsection;
+	  startspace = selectedpiece;
 	}
-	movesList[0] = -1;
-	if(movesList[1] == -1 && movesList[2] == -1 && movesList[3] == -1){
-	  rollsEmpty = true;
-	  pieceChosen = false;
-	}
-      }
-      // Moves list section 2
-      else if (selectedsection == movesList[1]){
-	endspace = movesList[1];
-	std::cout << "Moving " << startspace << " to " << endspace << std::endl;
-        // Capturing a piece
-        if(boardArray[endspace] == -1) {
-          if(startspace > -1) boardArray[startspace] -= 1;
-          else boardArray[25] -=1;	
-          boardArray[endspace] += 2;
-          boardArray[24] += 1; // Add one to brown's bar
-        }
-        // Moving into home        
-        else if(endspace > 23) {
-          if(startspace > -1) boardArray[startspace] -= 1;
-          else boardArray[25] -=1;
-          myendslot += 1;
-        }
-        // Else, move the chip
-        else {
-          if(startspace > -1) boardArray[startspace] -= 1;
-          else boardArray[25] -=1;
-          boardArray[endspace] += 1;
-        }
-	movesList[1] = -1;
-	if(movesList[0] == -1 && movesList[2] == -1 && movesList[3] == -1){
-	  rollsEmpty = true;
-	  pieceChosen = false;
-	}
-      }
-      // Moves list section 3 (doubles only)
-      else if(selectedsection == movesList[2]){ 
-	endspace = movesList[2];
-	std::cout << "Moving " << startspace << " to " << endspace << std::endl;
-        // Capturing a piece
-        if(boardArray[endspace] == -1) {
-          if(startspace > -1) boardArray[startspace] -= 1;
-          else boardArray[25] -=1;	
-          boardArray[endspace] += 2;
-          boardArray[24] += 1; // Add one to brown's bar
-        }
-        // Moving into home
-        else if(endspace > 23) {
-          if(startspace > -1) boardArray[startspace] -= 1;
-          else boardArray[25] -=1;
-          myendslot += 1;
-        }
-        // Else, move the chip
-        else {
-          if(startspace > -1) boardArray[startspace] -= 1;
-          else boardArray[25] -=1;
-          boardArray[endspace] += 1;
-        }                                                          
-	movesList[2] = -1;
-	if(movesList[0] == -1 && movesList[1] == -1 && movesList[3] == -1){
-          rollsEmpty = true;
-          pieceChosen = false;
-        }
-      }
-      // Moves list section 4 (doubles only)
-      else if (selectedsection == movesList[3]){
-	endspace = movesList[3];
-	std::cout << "Moving " << startspace << " to " << endspace << std::endl;
-        // Capturing a piece
-        if(boardArray[endspace] == -1) {
-          if(startspace > -1) boardArray[startspace] -= 1;
-          else boardArray[25] -=1;	
-          boardArray[endspace] += 2;
-          boardArray[24] += 1;
-        }
-        // Moving to home
-        else if(endspace > 23) {
-          if(startspace > -1) boardArray[startspace] -= 1;
-          else boardArray[25] -=1;
-          myendslot += 1;
-        }
-        // Else, move the chip
-        else {
-          if(startspace > -1) boardArray[startspace] -= 1;
-          else boardArray[25] -=1;
-          boardArray[endspace] += 1;
-        }
-        movesList[3] = -1;
-        if(movesList[0] == -1 && movesList[1] == -1 && movesList[2] == -1){
-          rollsEmpty = true;
-          pieceChosen = false;
-        }
-      }
-      // If a different piece is selected
-      else {
-      selectedpiece = selectedsection;
-      if(0 < boardArray[25]) startspace = -1;
-      else startspace = selectedpiece;
+	pieceChosen = true;
       }
     }
-    
-    if(!pieceChosen){
+    // No piece is already selected, and a piece is selected
+    else if(selectedsection > -1){
       if(boardArray[25] > 0) { // If white pieces on bar,
+	selectedpiece = 25;
         startspace = -1; // Start on brown's "endslot"
-        pieceChosen = true;
       } else {
+	selectedpiece = selectedsection;
         startspace = selectedpiece;
-        pieceChosen = true;
       }
+      pieceChosen = true;
     }
-    
-    // Calculates the possible moves
-    if(currentRolls[2] > 0){
-      for(int counter=0;counter<4;counter++){            
-	destination = startspace + currentRolls[counter];
-        // If there are more than 2 brown or more than 4 white, skip.
-        if(boardArray[destination] < -1 || boardArray[destination] > 4){
-	  movesList[counter] = -1;
-	  continue;
-	}
-        // If bearOff == false and destination > 23, skip
-	else if(!isBearOff && destination > 23) {
-	  movesList[counter] = -1;
-	  continue;
-	}
-        // Else the space is available
-        else movesList[counter] = destination;
-      }
-    }else {
-      for(int counter=0;counter<2;counter++){
-        destination = startspace + currentRolls[counter];
-        // If there are more than 2 brown or more than 4 white, skip
-        if(boardArray[destination] < -1 || boardArray[destination] > 4){
-	  movesList[counter] = -1;
-	  continue;
-	}
-        // If bearOff == false and destination > 23, skip
-        else if(!isBearOff && destination > 23){
-	  movesList[counter] = -1;
-	  continue;
-	}
-        // Else the space is available
-        else movesList[counter] = destination;
-      }
+    else { // If no piece is already selected, and a slot with no piece is selected, reset
+      selectedpiece = -1;
+      pieceChosen = false;
     }
-    std::cout << "Your possible moves are: " << movesList[0] << ", " << movesList[1] << ", " <<  movesList[2] << ", and " << movesList[3] << std::endl;
-    
+
+    // If a new piece is selected, calculates possible moves
+    if(pieceChosen && selectedpiece != -1) {
+      for(int counter=0;counter<4;counter++){
+	if(currentRolls[counter] != 0) {
+	  destination = startspace + currentRolls[counter];
+	  // If there are more than 2 brown or more than 4 white, skip.
+	  if(boardArray[destination] < -1 || boardArray[destination] > 4){
+	    movesList[counter] = -1;
+	    continue;
+	  }
+	  // If bearOff == false and destination > 23, skip
+	  else if(!isBearOff && destination > 23) {
+	    movesList[counter] = -1;
+	    continue;
+	  }
+	  // Else the space is available
+	  else movesList[counter] = destination;
+	}
+      }
+      
+      std::cout << "Your possible moves are: " << movesList[0] << ", " << movesList[1] << ", " <<  movesList[2] << ", and " << movesList[3] << std::endl;
+    }
   } if(playersturn && rollsEmpty){
-	  roll1 = (rand() % 6) + 1;
-	  roll2 = (rand() % 6) + 1;
-	  Refresh();
-	  
-	  playersturn = false;
-	  pieceChosen = false;
-	                                                
-	  // Run AI code (Roll dice, calculate moves, etc.)
-	  // boardArray = AIMove(&boardArray, AIroll1, AIroll2);
-	  // Update board w/ AI's move
+    roll1 = (rand() % 6) + 1;
+    roll2 = (rand() % 6) + 1;
+    Refresh();
+    
+    playersturn = false;
+    pieceChosen = false;
+    
+    // Run AI code (Roll dice, calculate moves, etc.)
+    // boardArray = AIMove(&boardArray, AIroll1, AIroll2);
+    // Update board w/ AI's move
   }
-                                                                                
+  
   if(myendslot == 15 || opponentendslot == 15){                      
     //- Display an endscreen based on who won?                                    
     //- wait 60 seconds                                                           
