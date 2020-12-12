@@ -19,19 +19,19 @@ bg.o: bg.h boardList.o boardList.h rollsList.o rollsList.h
 	$(CC) $(CFLAGS) -c -o bg.o bg.cc boardList.o rollsList.o
 
 Board.o: Board.h rollsList.o rollsList.h
-	$(CC) $(CFLAGS) -o Board.o Board.cc rollsList.o $(LDFLAGS)
+	$(CC) $(CFLAGS) -c -o Board.o Board.cc rollsList.o $(LDFLAGS)
 
 BoardNoRolls.o: Board.h
 	$(CC) $(CFLAGS) -c -o BoardNoRolls.o Board.cc $(LDFLAGS)
 
 Backgammon.o: Backgammon.h Board.o Board.h
-	$(CC) $(CFLAGS) -o Backgammon.o Backgammon.cc Board.o $(LDFLAGS)
+	$(CC) $(CFLAGS) -c -o Backgammon.o Backgammon.cc Board.o $(LDFLAGS)
 
 #main.o: main.cc main.h Backgammon.h
 #	$(CC) $(CFLAGS) -c -o main.o main.cc main.h Backgammon.o $(LDFLAGS)
 
 GUItest: BoardNoRolls.o Backgammon.o main.h
-	$(CC) $(CFLAGS) -o GUItest Backgammon.o Board.o $(LDFLAGS)
+	$(CC) $(CFLAGS) -o GUItest main.o Backgammon.o Board.o $(LDFLAGS)
 
 clean:
 	rm -f *~ *.o GUItest bg boardList rollsList
