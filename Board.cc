@@ -229,6 +229,14 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
       }
     }
   }
+
+  //Displays a "Thinking" banner when the AI is calculating moves.
+  if(playersturn && rollsEmpty) {
+    dc.SetTextForeground(wxColor(0,0,0));
+    dc.SetFont(wxFont(SquareWidth()*2,wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
+		      wxFONTWEIGHT_NORMAL,false));
+    dc.DrawText("Thinking...",3*SquareWidth(),5*SquareHeight());
+  }
 }
 	
 
@@ -443,12 +451,14 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     std::cout << "Your possible moves are: " << movesList[0] << ", " << movesList[1] << ", " <<  movesList[2] << ", and " << movesList[3] << std::endl;
     
   } if(playersturn && rollsEmpty){
+	  roll1 = (rand() % 6) + 1;
+	  roll2 = (rand() % 6) + 1;
+	  Refresh();
+	  
 	  playersturn = false;
 	  pieceChosen = false;
-	  // Display "Thinking"                                              
+	                                                
 	  // Run AI code (Roll dice, calculate moves, etc.)
-	  //  int AIroll1 = (rand() % 6) + 1;
-	  //  int AIroll2 = (rand() % 6) + 1;
 	  // boardArray = AIMove(&boardArray, AIroll1, AIroll2);
 	  // Update board w/ AI's move
   }
