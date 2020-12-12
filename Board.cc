@@ -429,6 +429,5 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     //- wait 60 seconds                                                           
     //- exit                                         
   }
-  }
   Refresh();
 }
