@@ -1,7 +1,7 @@
 #include <iostream>
-#include "boardList.h"
 #include "rollsList.h"
-#include "Board.h"
+#include "boardList.h"
+#include "bg.h"
 using namespace std;
 
 //generates all possible moves for a single roll (returns stack of board instances)
@@ -171,4 +171,15 @@ int* AIMove(int* boardArray, int roll1, int roll2){
 }
 
 
+  
+int main(){
+  int *p;
+  int boardArray[26] = {0};
+  p = AIMove(boardArray, 1, 2);
+  for (int i = 0; i<26; i++){
+    cout << p << " ";
+  }
+  cout << endl;
+  return 0;
+}
   
