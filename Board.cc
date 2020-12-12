@@ -247,17 +247,18 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
       } else{
 	currentRolls[0] = roll1;
 	currentRolls[1] = roll2;
+	currentRolls[2] = 0;
+	currentRolls[3] = 0;
       }
       rollsEmpty = false;
       playersturn = true;
       pieceChosen = false;
+      std::cout << "Successful Roll!" << std::endl;
+      std::cout << "Rolls are: " << currentRolls[0] << ", " << currentRolls[1] << ", " << currentRolls[2] << ", and " << currentRolls[3] << std::endl;
     } 
   }
   
   int selectedsection = -1;
-  int startspace = -1;
-  int destination = -1;
-  int endspace = -1;
   
   // Collects mouse position
   if(x>0)  selectedsection = ToArray(x,y);
@@ -274,6 +275,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
       // Moves list section 1
       if(selectedsection == movesList[0]){
 	endspace = movesList[0];
+	std::cout << "Moving " << startspace << " to " << endspace << std::endl;
 	// Capturing a piece
 	if(boardArray[endspace] == -1) {
 	  if(startspace > -1) boardArray[startspace] -= 1;
@@ -302,6 +304,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
       // Moves list section 2
       else if (selectedsection == movesList[1]){
 	endspace = movesList[1];
+	std::cout << "Moving " << startspace << " to " << endspace << std::endl;
         // Capturing a piece
         if(boardArray[endspace] == -1) {
           if(startspace > -1) boardArray[startspace] -= 1;
@@ -330,6 +333,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
       // Moves list section 3 (doubles only)
       else if(selectedsection == movesList[2]){ 
 	endspace = movesList[2];
+	std::cout << "Moving " << startspace << " to " << endspace << std::endl;
         // Capturing a piece
         if(boardArray[endspace] == -1) {
           if(startspace > -1) boardArray[startspace] -= 1;
@@ -358,6 +362,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
       // Moves list section 4 (doubles only)
       else if (selectedsection == movesList[3]){
 	endspace = movesList[3];
+	std::cout << "Moving " << startspace << " to " << endspace << std::endl;
         // Capturing a piece
         if(boardArray[endspace] == -1) {
           if(startspace > -1) boardArray[startspace] -= 1;
@@ -392,7 +397,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     }
     
     if(!pieceChosen){
-      if(0 < boardArray[25]) { // If white pieces on bar,
+      if(boardArray[25] > 0) { // If white pieces on bar,
         startspace = -1; // Start on brown's "endslot"
         pieceChosen = true;
       } else {
@@ -402,27 +407,40 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     }
     
     // Calculates the possible moves
-    if(currentRolls[2] != 0){
+    if(currentRolls[2] > 0){
       for(int counter=0;counter<4;counter++){            
-        destination = startspace + currentRolls[counter];
+	destination = startspace + currentRolls[counter];
         // If there are more than 2 brown or more than 4 white, skip.
-        if(boardArray[destination] < -1 || boardArray[destination] > 4) continue;
+        if(boardArray[destination] < -1 || boardArray[destination] > 4){
+	  movesList[counter] = -1;
+	  continue;
+	}
         // If bearOff == false and destination > 23, skip
-        else if(!isBearOff && destination > 23) continue;
+	else if(!isBearOff && destination > 23) {
+	  movesList[counter] = -1;
+	  continue;
+	}
         // Else the space is available
         else movesList[counter] = destination;
       }
-    }else{
+    }else {
       for(int counter=0;counter<2;counter++){
         destination = startspace + currentRolls[counter];
         // If there are more than 2 brown or more than 4 white, skip
-        if(boardArray[destination] < -1 || boardArray[destination] > 4) continue;
+        if(boardArray[destination] < -1 || boardArray[destination] > 4){
+	  movesList[counter] = -1;
+	  continue;
+	}
         // If bearOff == false and destination > 23, skip
-        else if(!isBearOff && destination > 23) continue;
+        else if(!isBearOff && destination > 23){
+	  movesList[counter] = -1;
+	  continue;
+	}
         // Else the space is available
         else movesList[counter] = destination;
       }
     }
+    std::cout << "Your possible moves are: " << movesList[0] << ", " << movesList[1] << ", " <<  movesList[2] << ", and " << movesList[3] << std::endl;
     
   } if(playersturn && rollsEmpty){
 	  playersturn = false;

@@ -22,6 +22,9 @@ class Board : public wxPanel
   bool playersturn = false;
   bool pieceChosen = false;
   bool isBearOff = false;
+  int startspace = -1;
+  int destination = -1;
+  int endspace = -1;
   
  protected:
   void OnPaint(wxPaintEvent& event);
