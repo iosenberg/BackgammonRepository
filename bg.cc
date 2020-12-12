@@ -102,15 +102,8 @@ BoardList* generateMoves(board* board1, RollsList* rolls){
 }
 
 //BoardList->BoardNode->boardData->boardArray,oppenentBar, etc
-board* bestMove(Board* currentBoard, int roll1, int roll2){
-  board* currentBackwardBoard;
-  for(int i = 0; i<24; i++){
-    currentBackwardBoard->boardArray[i] = currentBoard->boardArray[i];
-  }
-  currentBackwardBoard->bar = currentBoard->currentBoard->myendslot;
-  currentBackwardBoard->opponentBar = currentBoard->opponentendslot;
-  board* currentAIBoard;
-  currentAIBoard = currentBackwardBoard->reverseBoard();
+board* bestMove(board* currentAIBoard, int roll1, int roll2){
+  //need to free array and backward board
   RollsList* rolls = new RollsList(roll1,roll2);
   BoardList* refinedMoves = generateMoves(currentAIBoard, rolls);
   BoardNode* current = refinedMoves->header;
@@ -153,62 +146,38 @@ board* bestMove(Board* currentBoard, int roll1, int roll2){
     current = current->next;
   }
   return bestBoard;
-  //static int r[8];
-  //int i = 0;
-  //for(int j = 0; j < 24; j++){
-  //  if (currentAIBoard->boardArray[j] != bestBoard->boardArray[j]){
-  //    r[i] = j;
-  //  }
-	
 }
 
+int* AIMove(int* boardArray, int roll1, int roll2){
+  board* currentBackwardBoard = new board();
+  for(int i = 0; i<24; i++){
+    currentBackwardBoard->boardArray[i] = boardArray[i];
+  }
+  currentBackwardBoard->bar = boardArray[25];
+  currentBackwardBoard->opponentBar = boardArray[24];
+  board* currentAIBoard;
+  currentAIBoard = currentBackwardBoard->reverseBoard();
+  board* bestBoard = bestMove(currentAIBoard, roll1, roll2);
+  //in bestBoard - the player's bar is opponentBar and ai bar is bar
+  //in bestBoardPlayerView = player's bar is bar and ai bar is opponentBar
+  board* bestBoardPlayerView = bestBoard->reverseBoard();
+  static int newBoardArray[26];
+  for (int i = 0; i < 24; i++){
+    newBoardArray[i] = bestBoardPlayerView->boardArray[i];
+  }
+  newBoardArray[24] = bestBoardPlayerView->opponentBar;
+  newBoardArray[25] = bestBoardPlayerView->bar;
+  return newBoardArray;
+}
 
-
-
-//function for testing
 int main(){
-  board board1;
-  board1.setInitialBoard();
-  board1.printBoard();
-  board* board2;
-  board2 = board1.reverseBoard();
-  board2->printBoard();
-  if(board1.boardEqualP(board2)){
-    cout << "True" << endl;
+  int *p;
+  int boardArray[26] = {2, 0, 0, 0, 0, -5, 0, 0, 0, 0, 2, 0, 0, 0, 0, -5, 0, 0, 0, 0, 0, 0, 0, 1, 0};
+  p = AIMove(boardArray, 1, 2);
+  for (int i = 0; i < 26; i++){
+    cout << p[i] << " ";
   }
-  else{
-    cout << "False" << endl;
-  }
-  board* board3 = board1.copyBoard();
-  BoardList boardlist;
-  boardlist.push(&board1);
-  boardlist.push(board2);
-  boardlist.push(board3);
-  cout << "Printing List After Pushes" << endl;
-  boardlist.print();
-  boardlist.pop();
-  cout << "Printing List After Pop" << endl;
-  boardlist.print();
-  boardlist.push(board3);
-  boardlist.removeDuplicates();
-  cout << "Printing List Removing Duplicates" << endl;
-  boardlist.print();
-  BoardList* moves = generateMovesForSingleRoll(&board1,6);
-  cout << "Printing Original Board" << endl;
-  board1.printBoard();
-  cout << "Printing Moves" << endl;
-  moves->print();
-  RollsList* rolls = new RollsList(1,2);
-  rolls->print();
-  cout << "rolls" << endl;
-  board board4;
-  board4.setTestBoard();
-  board4.printBoard();
-  BoardList* moremoves = generateMoves(&board4, rolls);
-  Board* guiBoard = new Board();
-  board* bestBoard = bestMove(guiBoard, 1, 2);
-  bestBoard->printBoard();
-  
-  
+  cout << endl;
   return 0;
 }
+  
