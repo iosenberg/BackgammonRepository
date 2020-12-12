@@ -19,7 +19,7 @@ class Board : public wxPanel
   int roll2 = 0;
   int currentRolls[4] = {-1,-1,-1,-1}; // -1 means no roll present
   bool rollsEmpty = true;
-  bool playerturn = true;
+  bool playersturn = true;
   bool pieceChosen = false;
   bool isBearOff = false;
   

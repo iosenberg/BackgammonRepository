@@ -243,11 +243,9 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
       roll2 = (rand() % 6) + 1;
       if (roll1 == roll2) { // if they roll doubles
 	for(int r=0; r<4; r++) currentRolls[r] = roll1;
-	isDoubles = true;
       } else{
 	currentRolls[0] = roll1;
 	currentRolls[1] = roll2;
-	isDoubles = false;
       }
       rollsEmpty = false;
       playersturn = true;
@@ -257,6 +255,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   int selectedsection = -1;
   int startspace = -1;
   int destination = -1;
+  int endspace = -1;
   
   //takes the mouse position and calculates which section of the board is selected
   if(x>0)  selectedsection = ToArray(x,y);
@@ -268,72 +267,141 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   selectedpiece = selectedsection;
                        
   if(playersturn && !rollsEmpty){ // If it's the player's turn and there are still rolls left               
-    if(0 < boardArray[25]) startspace = -1; // If there are pieces on the bar, brown's "endslot"
+    if(0 < boardArray[25]) startspace = -1; // If there are pieces on the bar, start on brown's "endslot"
     else if(0 == boardArray[25] && !pieceChosen) startspace = selectedpiece;
+    pieceChosen = true;
+    
     if(currentRolls[2] != 0){
       for(int counter=0;counter<4;counter++){ // Calculate the possible moves for that piece
-	// If there are more than 2 brown or more than 4 white, skip.
+	destination = startspace + currentRolls[counter];
+	// If there are more than 2 brown or more than 4 white, skip.                               
+	if(boardArray[startspace] < -1 || boardArray[startspace] > 4) continue;
 	// If bearOff == false and destination > 23, skip
+	else if(!isBearOff && destination > 23) continue;
 	// Else the space is available
+	else movesList[counter] = destination;
       }
-    } else{
+    }else{
       for(int counter=0;counter<2;counter++){
+	destination = startspace + currentRolls[counter];
+        // If there are more than 2 brown or more than 4 white, skip.
+        if(boardArray[startspace] < -1 || boardArray[startspace] > 4) continue;	
+        // If bearOff == false and destination > 23, skip
+        else if(!isBearOff && destination > 23) continue;
+        // Else the space is available
+        else movesList[counter] = destination;
       }
     }
-  }else if(0 == boardArray[25] && pieceChosen){ // If a piece has been chosen,
-    if(selectedsection == movesList[0]){ // Moves list section 1
-      cout << "Fair move! Section 1" << endl;
-      // If there is 1 brown, move the brown to 24 and move the white to destination
-      // If destination is > 23, remove the chip and add 1 to myendslot
-      // Else, move the chip
-      movesList[0] = -1;
-      if(movesList[1] == -1 && movesList[2] == -1 && movesList[3] == -1){
-	  cout << "All done." << endl;
+  
+  
+    if(pieceChosen){ // If a piece has been chosen,
+      if(selectedsection == movesList[0]){ // Moves list section 1
+	endspace = movesList[0];
+	// If there is 1 brown, move the brown to 24 and move the white to destination
+	if(boardArray[endspace] == -1) {
+	  boardArray[startspace] -= 1;
+	  boardArray[endspace] += 2;
+	  boardArray[24] += 1; // Add one to brown's bar
+	}
+	// If destination is > 23, remove the chip and add 1 to myendslot
+	else if(endspace > 23) {
+	  boardArray[startspace] -=1;
+	  myendslot += 1;
+	}
+	// Else, move the chip
+	else {
+	  boardArray[startspace] -= 1;
+	  boardArray[endspace] += 1;
+	}
+	movesList[0] = -1;
+	if(movesList[1] == -1 && movesList[2] == -1 && movesList[3] == -1){
 	  rollsEmpty = true;
 	  pieceChosen = false;
 	}
-    } else if (selectedsection == movesList[1]){ // Moves list section 2
-	cout << "Fair move! Section 2" << endl;
+      } else if (selectedsection == movesList[1]){ // Moves list section 2
+	endspace = movesList[1];
+        // If there is 1 brown, move the brown to 24 and move the white to destination         
+        if(boardArray[endspace] == -1) {
+          boardArray[startspace] -= 1;	
+          boardArray[endspace] += 2;
+          boardArray[24] += 1; // Add one to brown's bar                                  
+        }
+        // If destination is > 23, remove the chip and add 1 to myendslot                    
+        else if(endspace > 23) {
+          boardArray[startspace] -=1;
+          myendslot += 1;
+        }
+        // Else, move the chip                 
+        else {
+          boardArray[startspace] -= 1;
+          boardArray[endspace] += 1;
+        }
 	movesList[1] = -1;
 	if(movesList[0] == -1 && movesList[2] == -1 && movesList[3] == -1){
-	  cout << "All done." << endl;
 	  rollsEmpty = true;
 	  pieceChosen = false;
 	}
-    }else if(selectedsection == movesList[2]){ // Moves list section 3 (doubles only)
-      cout << "Fair move! Section 3" << endl;
-      // If there is 1 brown, move the brown to 24 and move the white to destination                                       
-      // If destination is > 23, remove the chip and add 1 to myendslot                                                    
-      // Else, move the chip                                                                                               
-      movesList[2] = -1;
-      if(movesList[0] == -1 && movesList[1] == -1 && movesList[3] == -1){
-          cout << "All done." << endl;
+      } else if(selectedsection == movesList[2]){ // Moves list section 3 (doubles only)
+	endspace = movesList[0];
+        // If there is 1 brown, move the brown to 24 and move the white to destination 
+        if(boardArray[endspace] == -1) {
+          boardArray[startspace] -= 1;	
+          boardArray[endspace] += 2;
+          boardArray[24] += 1; // Add one to brown's bar                                                         
+        }
+        // If destination is > 23, remove the chip and add 1 to myendslot                                        
+        else if(endspace > 23) {
+          boardArray[startspace] -=1;
+          myendslot += 1;
+        }
+        // Else, move the chip                                                                 
+        else {
+          boardArray[startspace] -= 1;
+          boardArray[endspace] += 1;
+        }                                                          
+	movesList[2] = -1;
+	if(movesList[0] == -1 && movesList[1] == -1 && movesList[3] == -1){
           rollsEmpty = true;
           pieceChosen = false;
         }
-    } else if (selectedsection == movesList[3]){ // Moves list section 4 (doubles only)
-        cout << "Fair move! Section 4" << endl;
+      } else if (selectedsection == movesList[3]){ // Moves list section 4 (doubles only)
+	endspace = movesList[0];
+        // If there is 1 brown, move the brown to 24 and move the white to destination  
+        if(boardArray[endspace] == -1) {
+          boardArray[startspace] -= 1;	
+          boardArray[endspace] += 2;
+          boardArray[24] += 1; // Add one to brown's bar                                
+        }
+        // If destination is > 23, remove the chip and add 1 to myendslot      
+        else if(endspace > 23) {
+          boardArray[startspace] -=1;
+          myendslot += 1;
+        }
+        // Else, move the chip                                                                  
+        else {
+          boardArray[startspace] -= 1;
+          boardArray[endspace] += 1;
+        }
         movesList[3] = -1;
         if(movesList[0] == -1 && movesList[1] == -1 && movesList[2] == -1){
-          cout << "All done." << endl;
           rollsEmpty = true;
           pieceChosen = false;
         }
-    } else selectedpiece = selectedsection;
+    } else {
+      selectedpiece = selectedsection;
+      startspace = selectedpiece;
     }
   } if(playersturn && rollsEmpty){
 	  playersturn = false;
-	  cout << "AI's turn!" << endl;
   //          - Display "Thinking"                                              
   //          - Run AI code (Roll dice, calculate moves, etc.)                  
   //          - Update board w/ AI's move
   }
                                                                                 
   if(myendslot == 15 || opponentendslot == 15){                      
-  	cout << "Game ends!" << endl;
-	  //- Display an endscreen based on who won?                                    
-  //- wait 60 seconds                                                           
-  //- exit                                         
+    //- Display an endscreen based on who won?                                    
+    //- wait 60 seconds                                                           
+    //- exit                                         
   }
 
  /* HERES THE FIRST COMMENT BRACKET. Sorry for commenting out all your code lol
@@ -379,6 +447,6 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
 
   HERE'S THE LAST COMMENT BRACKET
   */
-
+  }
   Refresh();
 }
