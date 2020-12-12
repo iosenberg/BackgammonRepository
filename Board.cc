@@ -1,13 +1,18 @@
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 #include "Board.h"
 //#include "bg.h"
+using namespace std;
 
 Board::Board(wxFrame *parent)
   : wxPanel(parent, wxID_ANY,wxDefaultPosition,
 	    wxDefaultSize, wxBORDER_NONE)
 {
   m_stsbar = parent->GetStatusBar();
- 
+
+  srand(time(0));
+  
   Connect(wxEVT_PAINT, wxPaintEventHandler(Board::OnPaint));
   Connect(wxEVT_LEFT_DOWN, wxMouseEventHandler(Board::OnClick));
 
@@ -261,8 +266,8 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
       rollsEmpty = false;
       playersturn = true;
       pieceChosen = false;
-      std::cout << "Successful Roll!" << std::endl;
-      std::cout << "Rolls are: " << currentRolls[0] << ", " << currentRolls[1] << ", " << currentRolls[2] << ", and " << currentRolls[3] << std::endl;
+      cout << "Successful Roll!" << endl;
+      cout << "Rolls are: " << currentRolls[0] << ", " << currentRolls[1] << ", " << currentRolls[2] << ", and " << currentRolls[3] << endl;
     } 
   }
   
@@ -279,7 +284,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
       for (int i=0;i<4;i++) {
 	if(selectedsection == movesList[i] && pieceChosen){
 	  endspace = movesList[i];
-	  std::cout << "Moving " << startspace << " to " << endspace << std::endl;
+	  cout << "Moving " << startspace << " to " << endspace << endl;
 	  // Capturing a piece
 	  if(boardArray[endspace] == -1) {
 	    if(startspace > -1) boardArray[startspace] -= 1;
@@ -304,7 +309,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
 	  // If all the rolls are empty, rollsEmpty = true
 	  if(currentRolls[0] == 0 && currentRolls[1] == 0 && currentRolls[2] == 0 && currentRolls[3] == 0){
 	    rollsEmpty = true;
-	    std::cout << "Rolls is now empty." << endspace << std::endl;
+	    cout << "Rolls is now empty." << endspace << endl;
 	  }
 	  // Resets movesList and deselects piece
 	  movesList[i] = -1;
@@ -364,7 +369,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
 	}
       }
       
-      std::cout << "Your possible moves are: " << movesList[0] << ", " << movesList[1] << ", " <<  movesList[2] << ", and " << movesList[3] << std::endl;
+      cout << "Your possible moves are: " << movesList[0] << ", " << movesList[1] << ", " <<  movesList[2] << ", and " << movesList[3] << endl;
     }
   }
 
