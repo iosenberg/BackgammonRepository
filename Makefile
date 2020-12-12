@@ -21,8 +21,8 @@ bg.o: bg.h boardList.o boardList.h rollsList.o rollsList.h
 Board.o: Board.h rollsList.o rollsList.h
 	$(CC) $(CFLAGS) -c -o Board.o Board.cc rollsList.o $(LDFLAGS)
 
-BoardNoRolls.o: Board.h
-	$(CC) $(CFLAGS) -c -o BoardNoRolls.o Board.cc $(LDFLAGS)
+BoardNoRolls.o: Board.h bg.o bg.h
+	$(CC) $(CFLAGS) -c -o BoardNoRolls.o Board.cc bg.o$(LDFLAGS)
 
 Backgammon.o: Backgammon.h Board.o Board.h
 	$(CC) $(CFLAGS) -c -o Backgammon.o Backgammon.cc Board.o $(LDFLAGS)

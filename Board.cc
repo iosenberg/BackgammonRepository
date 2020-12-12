@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Board.h"
+#include "bg.h"
 
 Board::Board(wxFrame *parent)
   : wxPanel(parent, wxID_ANY,wxDefaultPosition,
@@ -394,7 +395,10 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   } if(playersturn && rollsEmpty){
 	  playersturn = false;
   //          - Display "Thinking"                                              
-  //          - Run AI code (Roll dice, calculate moves, etc.)                  
+  //          - Run AI code (Roll dice, calculate moves, etc.)
+	  int AIroll1 = (rand() % 6) + 1;
+	  int AIroll2 = (rand() % 6) + 1;
+	  boardArray = AIMove(&boardArray, AIroll1, AIroll2);
   //          - Update board w/ AI's move
   }
                                                                                 
