@@ -260,7 +260,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   
   //takes the mouse position and calculates which section of the board is selected
   if(x>0)  selectedsection = ToArray(x,y);
-  if(selectedsection != -1){ // Resets the rolls if the roll button isn't selected
+  if(selectedsection != -1){ 
     roll1 = 0;
     roll2 = 0;
   }
@@ -268,9 +268,13 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   selectedpiece = selectedsection;
                        
   if(playersturn && !rollsEmpty){ // If it's the player's turn and there are still rolls left               
-    if(0 < boardArray[25]) startspace = -1; // If there are pieces on the bar, start on brown's "endslot"
-    else if(0 == boardArray[25] && !pieceChosen) startspace = selectedpiece;
-    pieceChosen = true;
+    if(0 < boardArray[25]) {
+      startspace = -1; // If there are pieces on the bar, start on brown's "endslot"
+      pieceChosen = true;
+    } else if(0 == boardArray[25] && !pieceChosen) {
+      startspace = selectedpiece;
+      pieceChosen = true;
+    }
     
     if(currentRolls[2] != 0){
       for(int counter=0;counter<4;counter++){ // Calculate the possible moves for that piece
