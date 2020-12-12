@@ -2,8 +2,8 @@
 
 ## Notes
 - There are two colors; white (the player) and brown/black (the AI/opponent)
-- White is ready to bear off when its pieces are in spaces 0-5
-- Brown/black is ready to bear pff when its pieces are in spaces 18-23
+- White is ready to bear off when its pieces are in spaces 18-23
+- Brown/black is ready to bear pff when its pieces are in spaces 0-5
 
 ## Common Variables
 
