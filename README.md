@@ -32,18 +32,18 @@
 ## Functions within Programs
 
 ### Board.cc - includes Board.h, rollsList.h
-- Board::Board(wxFrame \*parent) | **
-- void Board::OnPaint(wxPaintEvent& WXUNUSED(event)) | *Draws the board?*
-- void Board::OnClick(wxMouseEvent& event) | *Calculates the possible moves of a selected piece*
+- Board(wxFrame \*parent) | **
+- void OnPaint(wxPaintEvent& WXUNUSED(event)) | *Draws the board?*
+- void OnClick(wxMouseEvent& event) | *Calculates the possible moves of a selected piece*
 
 ### AIBoard.cc - includes AIBoard.h
 - board::board() | *constructor for board class, just initializes variables in board object*
-- void board::setInitialBoard() | *Sets the board to a starting game board*
-- bool board::readyToBearOff() | *Checks if someone is ready to start adding their pieces to their end area, specific to AI*
-- void board::printBoard() | *prints all variables in board class (boardArray, opponentBar, bar, score, and numRolls)*
-- board\* board::copyBoard() | *copies board object*
-- bool board::boardEqualP(board* testboard) | *just creates a board for testing, not relevant to anything but debugging*
-- board\* board::reverseBoard() | *reverses board to show players view of the board (reverses array and switches the signs in the board array and on the bars)*
+- void setInitialBoard() | *Sets the board to a starting game board*
+- bool readyToBearOff() | *Checks if someone is ready to start adding their pieces to their end area, specific to AI*
+- void printBoard() | *prints all variables in board class (boardArray, opponentBar, bar, score, and numRolls)*
+- board\* copyBoard() | *copies board object*
+- bool boardEqualP(board* testboard) | *just creates a board for testing, not relevant to anything but debugging*
+- board\* reverseBoard() | *reverses board to show players view of the board (reverses array and switches the signs in the board array and on the bars)*
 
 ### boardList.cc
 - BoardNode(board* BoardNode(board* board) | *BoardNode constructor just initializing linked list*
