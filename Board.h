@@ -3,6 +3,7 @@
 
 #include <wx/wx.h>
 #include <list>
+#include "bg.h"
 
 class Board : public wxPanel
 {
@@ -39,6 +40,8 @@ class Board : public wxPanel
   int SquareWidth() { return GetClientSize().GetWidth() / BoardWidth; }
   int SquareHeight() { return GetClientSize().GetHeight() / BoardHeight; }
   wxStatusBar *m_stsbar;
+
+  AI *gameAI;
 };
 
 #endif

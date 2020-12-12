@@ -2,7 +2,6 @@
 #include <cstdlib>
 #include <ctime>
 #include "Board.h"
-#include "bg.h"
 using namespace std;
 
 Board::Board(wxFrame *parent)
@@ -26,6 +25,8 @@ Board::Board(wxFrame *parent)
   boardArray[23] = -2;
   myendslot = 0;
   opponentendslot = 0;
+
+  gameAI = new AI();
 }
 
 int Board::ToArray(int x, int y)
@@ -325,7 +326,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
       // If a piece is already selected and another piece is selected      
       if(pieceChosen && selectedsection > -1 && selectedsection < 24){
 	// If there are brown pieces on that spot, don't select it.
-	if(boardArray[selectedsection] < 0) continue;
+	if(boardArray[selectedsection] < 0) cout << "beep" << endl;//continue; just to make it compile
 	else if(boardArray[25] > 0) { // If white pieces on bar,
 	  selectedpiece = 25;
 	  startspace = -1; // Start on brown's "endslot"
@@ -340,7 +341,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     // No piece is already selected, and a piece is selected
     else if(selectedsection > -1 && selectedsection < 24){
       // If there are brown pieces on that spot, don't select it.
-      if(boardArray[selectedsection] < 0) continue;
+      if(boardArray[selectedsection] < 0) cout << "beep" << endl;//continue; just to make it compile
       else if(boardArray[25] > 0) { // If white pieces on bar,
 	selectedpiece = 25;
         startspace = -1; // Start on brown's "endslot"
@@ -396,8 +397,9 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     pieceChosen = false;
 
     // Run AI code
-    AI ai = AI();
-    boardArray = ai.AIMove(boardArray, roll1, roll2);
+    int* boardPointer = gameAI->AIMove(boardArray, roll1, roll2);
+    for (int i=0;i<26;i++) 
+      boardArray[i] = *(boardPointer + i);
   }
 
   // Check if the player can bear-off
