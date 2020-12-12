@@ -260,44 +260,14 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   
   //takes the mouse position and calculates which section of the board is selected
   if(x>0)  selectedsection = ToArray(x,y);
-  if(selectedsection != -1){ 
+  /*if(selectedsection != -1){ 
     roll1 = 0;
     roll2 = 0;
-  }
+    }*/
 
   selectedpiece = selectedsection;
                        
-  if(playersturn && !rollsEmpty){ // If it's the player's turn and there are still rolls left               
-    if(0 < boardArray[25]) {
-      startspace = -1; // If there are pieces on the bar, start on brown's "endslot"
-      pieceChosen = true;
-    } else if(0 == boardArray[25] && !pieceChosen) {
-      startspace = selectedpiece;
-      pieceChosen = true;
-    }
-    
-    if(currentRolls[2] != 0){
-      for(int counter=0;counter<4;counter++){ // Calculate the possible moves for that piece
-	destination = startspace + currentRolls[counter];
-	// If there are more than 2 brown or more than 4 white, skip.                               
-	if(boardArray[startspace] < -1 || boardArray[startspace] > 4) continue;
-	// If bearOff == false and destination > 23, skip
-	else if(!isBearOff && destination > 23) continue;
-	// Else the space is available
-	else movesList[counter] = destination;
-      }
-    }else{
-      for(int counter=0;counter<2;counter++){
-	destination = startspace + currentRolls[counter];
-        // If there are more than 2 brown or more than 4 white, skip.
-        if(boardArray[startspace] < -1 || boardArray[startspace] > 4) continue;	
-        // If bearOff == false and destination > 23, skip
-        else if(!isBearOff && destination > 23) continue;
-        // Else the space is available
-        else movesList[counter] = destination;
-      }
-    }
-  
+  if(playersturn && !rollsEmpty){ // If it's the player's turn and there are still rolls left
   
     if(pieceChosen){ // If a piece has been chosen,
       if(selectedsection == movesList[0]){ // Moves list section 1
@@ -406,10 +376,46 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
         }
     } else {
       selectedpiece = selectedsection;
-      startspace = selectedpiece;
+      if(0 < boardArray[25]) startspace = -1;
+      else startspace = selectedpiece;
+      }
     }
+    
+    if(!pieceChosen){
+      if(0 < boardArray[25]) {
+        startspace = -1; // If there are pieces on the bar, start on brown's "endslot"                   
+        pieceChosen = true;
+      } else if(0 == boardArray[25] && !pieceChosen) {
+        startspace = selectedpiece;
+        pieceChosen = true;
+      }
+    }
+    // Calculates the possible moves
+    if(currentRolls[2] != 0){
+      for(int counter=0;counter<4;counter++){ // Calculate the possible moves for that piece             
+        destination = startspace + currentRolls[counter];
+        // If there are more than 2 brown or more than 4 white, skip.                                    
+        if(boardArray[startspace] < -1 || boardArray[startspace] > 4) continue;
+        // If bearOff == false and destination > 23, skip                                                
+        else if(!isBearOff && destination > 23) continue;
+        // Else the space is available                                                                   
+        else movesList[counter] = destination;
+      }
+    }else{
+      for(int counter=0;counter<2;counter++){
+        destination = startspace + currentRolls[counter];
+        // If there are more than 2 brown or more than 4 white, skip.                                    
+        if(boardArray[startspace] < -1 || boardArray[startspace] > 4) continue;
+        // If bearOff == false and destination > 23, skip                                                
+        else if(!isBearOff && destination > 23) continue;
+        // Else the space is available                                                                   
+        else movesList[counter] = destination;
+      }
+    }
+    
   } if(playersturn && rollsEmpty){
 	  playersturn = false;
+	  pieceChosen = false;
   //          - Display "Thinking"                                              
   //          - Run AI code (Roll dice, calculate moves, etc.)
 	  int AIroll1 = (rand() % 6) + 1;
