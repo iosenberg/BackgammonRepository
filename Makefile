@@ -25,7 +25,7 @@ BoardNoRolls.o: Board.h
 	$(CC) $(CFLAGS) -c -o BoardNoRolls.o Board.cc $(LDFLAGS)
 
 Backgammon.o: Backgammon.h Board.o Board.h
-	$(CC) $(CFLAGS) -o Backgammon.o Backgammon.cc Board.o $(LDFLAGS)
+	$(CC) $(CFLAGS) -c -o Backgammon.o Backgammon.cc Board.o $(LDFLAGS)
 
 #main.o: main.cc main.h Backgammon.h
 #	$(CC) $(CFLAGS) -c -o main.o main.cc main.h Backgammon.o $(LDFLAGS)
