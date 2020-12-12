@@ -418,8 +418,8 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
 	  pieceChosen = false;
   //          - Display "Thinking"                                              
   //          - Run AI code (Roll dice, calculate moves, etc.)
-	  int AIroll1 = (rand() % 6) + 1;
-	  int AIroll2 = (rand() % 6) + 1;
+	  //  int AIroll1 = (rand() % 6) + 1;
+	  //  int AIroll2 = (rand() % 6) + 1;
 	  // boardArray = AIMove(&boardArray, AIroll1, AIroll2);
   //          - Update board w/ AI's move
   }
@@ -428,7 +428,6 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     //- Display an endscreen based on who won?                                    
     //- wait 60 seconds                                                           
     //- exit                                         
-  }
   }
   Refresh();
 }
