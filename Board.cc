@@ -276,13 +276,14 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   
   // Collects mouse position
   if (x > 0) selectedsection = ToArray(x,y);
-
                        
   if(playersturn && !rollsEmpty){
   
     if(pieceChosen){
-      // @Veronica, I condensed this into a for loop
+      // Run through the 4 moves list indices
       for (int i=0;i<4;i++) {
+	// If -1 is selected, don't do anything
+	if(selectedsection == -1) continue;
 	if(selectedsection == movesList[i] && pieceChosen){
 	  endspace = movesList[i];
 	  cout << "Moving " << startspace << " to " << endspace << endl;
@@ -322,8 +323,10 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
       }
 
       // If a piece is already selected and another piece is selected      
-      if(pieceChosen && selectedsection > -1){
-	if(boardArray[25] > 0) { // If white pieces on bar,
+      if(pieceChosen && selectedsection > -1 && selectedsection < 24){
+	// If there are brown pieces on that spot, don't select it.
+	if(boardArray[selectedsection] < 0) continue;
+	else if(boardArray[25] > 0) { // If white pieces on bar,
 	  selectedpiece = 25;
 	  startspace = -1; // Start on brown's "endslot"
 	}
@@ -335,8 +338,10 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
       }
     }
     // No piece is already selected, and a piece is selected
-    else if(selectedsection > -1){
-      if(boardArray[25] > 0) { // If white pieces on bar,
+    else if(selectedsection > -1 && selectedsection < 24){
+      // If there are brown pieces on that spot, don't select it.
+      if(boardArray[selectedsection] < 0) continue;
+      else if(boardArray[25] > 0) { // If white pieces on bar,
 	selectedpiece = 25;
         startspace = -1; // Start on brown's "endslot"
       } else {
