@@ -397,9 +397,10 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     pieceChosen = false;
 
     // Run AI code
-    int* boardPointer = gameAI->AIMove(boardArray, roll1, roll2);
-    for (int i=0;i<26;i++) 
-      boardArray[i] = *(boardPointer + i);
+    //int* boardPointer = gameAI->AIMove(boardArray, roll1, roll2);
+    //for (int i=0;i<26;i++) 
+    //  boardArray[i] = *(boardPointer + i);
+    cout << "Player's turn" << endl;  
   }
 
   // Check if the player can bear-off
@@ -411,7 +412,6 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
   if(15 == chip_sum) isBearOff = true;
   else {
     isBearOff = false;
-    cout << "Player can bear-off!" << endl;
   }
   if(myendslot == 15 || opponentendslot == 15){                      
     //- Display an endscreen based on who won?
