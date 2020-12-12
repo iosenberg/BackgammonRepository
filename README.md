@@ -28,25 +28,22 @@
 ### In rollsList.h
 - roll | *int, holds the die roll number*
 - \*next | *RollNode, holds the next node in the list*
-- isEmpty() | *checks if RollNode header is NULL or not, allow you to loop through rolls*
-- first() | *returns the value of RollNode header*
-- rest() | *returns a new list with the first RollNode removed, just used in recursive function for AI*
 
 ## Functions within Programs
 
 ### Board.cc - includes Board.h, rollsList.h
-- Board::Board(wxFrame \*parent) | **
-- void Board::OnPaint(wxPaintEvent& WXUNUSED(event)) | *Draws the board?*
-- void Board::OnClick(wxMouseEvent& event) | *Calculates the possible moves of a selected piece*
+- Board(wxFrame \*parent) | **
+- void OnPaint(wxPaintEvent& WXUNUSED(event)) | *Draws the board?*
+- void OnClick(wxMouseEvent& event) | *Calculates the possible moves of a selected piece*
 
 ### AIBoard.cc - includes AIBoard.h
 - board::board() | *constructor for board class, just initializes variables in board object*
-- void board::setInitialBoard() | *Sets the board to a starting game board*
-- bool board::readyToBearOff() | *Checks if someone is ready to start adding their pieces to their end area, specific to AI*
-- void board::printBoard() | *prints all variables in board class (boardArray, opponentBar, bar, score, and numRolls)*
-- board\* board::copyBoard() | *copies board object*
-- bool board::boardEqualP(board* testboard) | *just creates a board for testing, not relevant to anything but debugging*
-- board\* board::reverseBoard() | *reverses board to show players view of the board (reverses array and switches the signs in the board array and on the bars)*
+- void setInitialBoard() | *Sets the board to a starting game board*
+- bool readyToBearOff() | *Checks if someone is ready to start adding their pieces to their end area, specific to AI*
+- void printBoard() | *prints all variables in board class (boardArray, opponentBar, bar, score, and numRolls)*
+- board\* copyBoard() | *copies board object*
+- bool boardEqualP(board* testboard) | *just creates a board for testing, not relevant to anything but debugging*
+- board\* reverseBoard() | *reverses board to show players view of the board (reverses array and switches the signs in the board array and on the bars)*
 
 ### boardList.cc
 - BoardNode(board* BoardNode(board* board) | *BoardNode constructor just initializing linked list*
@@ -62,6 +59,12 @@
 - int findMax() | *finds maximum numRolls to remove interim moves*
  
 ### rollsList.cc
+- int isEmpty() | *checks if RollNode header is NULL or not, allow you to loop through rolls*
+- int pop() | *removes the last added RollNode in the list and returns the value of it*
+- int first() | *returns the value of RollNode header*
+- RollsList* rest() | *returns a new list with the first RollNode removed, just used in recursive function for AI*
+- void print() | *prints each RollsNode in RollsList*
+- void reverse() | *reverses the RollsList*
 
 ### bg.cc
 - BoardList* generateMovesForSingleRoll(board* board1, int roll) | *generates all possible moves for single roll and stores board objects for possible moves in BoardList*
