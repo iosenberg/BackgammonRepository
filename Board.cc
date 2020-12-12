@@ -397,9 +397,9 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     pieceChosen = false;
 
     // Run AI code
-    //int* boardPointer = gameAI->AIMove(boardArray, roll1, roll2);
-    //for (int i=0;i<26;i++) 
-    //  boardArray[i] = *(boardPointer + i);
+    int* boardPointer = gameAI->AIMove(boardArray, roll1, roll2);
+    for (int i=0;i<26;i++) 
+    	boardArray[i] = *(boardPointer + i);
     cout << "Player's turn" << endl;  
   }
 
