@@ -59,12 +59,12 @@
 - int findMax() | *finds maximum numRolls to remove interim moves*
  
 ### rollsList.cc
-- isEmpty() | *checks if RollNode header is NULL or not, allow you to loop through rolls*
-- pop() | *removes the last added RollNode in the list and returns the value of it*
-- first() | *returns the value of RollNode header*
-- rest() | *returns a new list with the first RollNode removed, just used in recursive function for AI*
-- print() | *prints each RollsNode in RollsList*
--reverse() | *reverses the RollsList*
+- int isEmpty() | *checks if RollNode header is NULL or not, allow you to loop through rolls*
+- int pop() | *removes the last added RollNode in the list and returns the value of it*
+- int first() | *returns the value of RollNode header*
+- RollsList* rest() | *returns a new list with the first RollNode removed, just used in recursive function for AI*
+- void print() | *prints each RollsNode in RollsList*
+- void reverse() | *reverses the RollsList*
 
 ### bg.cc
 - BoardList* generateMovesForSingleRoll(board* board1, int roll) | *generates all possible moves for single roll and stores board objects for possible moves in BoardList*
