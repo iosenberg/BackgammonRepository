@@ -2,7 +2,7 @@ CC = g++
 CFLAGS = -g -pedantic -Wall -Wextra -Werror
 LDFLAGS = `wx-config --cxxflags` `wx-config --libs`
 
-all: Board.o Backgammon.o AIBoard.o rollsList.o boardList.o bg.o GUItest 
+all: Board.o Backgammon.o rollsList.o GUItest 
 
 GUI: BoardNoRolls.o Backgammon.o GUItest
 
