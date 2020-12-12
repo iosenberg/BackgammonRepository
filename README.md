@@ -28,9 +28,6 @@
 ### In rollsList.h
 - roll | *int, holds the die roll number*
 - \*next | *RollNode, holds the next node in the list*
-- isEmpty() | *checks if RollNode header is NULL or not, allow you to loop through rolls*
-- first() | *returns the value of RollNode header*
-- rest() | *returns a new list with the first RollNode removed, just used in recursive function for AI*
 
 ## Functions within Programs
 
@@ -62,6 +59,12 @@
 - int findMax() | *finds maximum numRolls to remove interim moves*
  
 ### rollsList.cc
+- isEmpty() | *checks if RollNode header is NULL or not, allow you to loop through rolls*
+- pop() | *removes the last added RollNode in the list and returns the value of it*
+- first() | *returns the value of RollNode header*
+- rest() | *returns a new list with the first RollNode removed, just used in recursive function for AI*
+- print() | *prints each RollsNode in RollsList*
+-reverse() | *reverses the RollsList*
 
 ### bg.cc
 - BoardList* generateMovesForSingleRoll(board* board1, int roll) | *generates all possible moves for single roll and stores board objects for possible moves in BoardList*
