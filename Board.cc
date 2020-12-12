@@ -411,50 +411,6 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     //- wait 60 seconds                                                           
     //- exit                                         
   }
-
- /* HERES THE FIRST COMMENT BRACKET. Sorry for commenting out all your code lol
- 
-  if(selectedpiece > -1 && selectedpiece < 25) {
-    // 25 is white endspace, 24 is brown endspace
-    // White is positive, brown is negative
-    int startspace;
-    int currentroll;
-    int counter = 0;
-    // Set start space
-    //NOTE: we need code that prevents the player/AI from selecting anything off the bar if they have pieces on the bar.
-    if (color == true && mybar != 0) startspace = 24;
-    else if (color == false && opponentbar != 0) startspace = 0; // This is zero so if they roll a 1, the available spot is 1.
-    else startspace = selectedpiece;
-    // For each roll:
-    while(counter != 2){ // Even if someone rolls doubles, the possible moves are going to be the same
-      currentroll = currentRolls->RollsList::first();
-      if(color == true) currentroll *= -1;
-      int destination = startspace + currentroll;
-      // Set a boolean for if a player has all their pieces in their side of the board?
-      if(destination > 25) destination = 25;
-      if(destination < 1) destination = 26;
-      // Check if the spots on the board are available
-      if(boardArray[destination] < -1 || boardArray[] > 1) continue;
-      else movesList[counter] = destination;
-    }
-  
-    if(//selectedsection is in list of possible moves
-       ) {
-      //make move
-      selectedpiece = -1; //resets what piece is selected to none
-    }
-    else {
-      selectedpiece = selectedsection;
-      //list of possible moves = get moves list function
-    }
-  }
-  else { //it also has to go down here
-    selectedpiece = selectedsection;
-    //list of possible moves = get moves list function
-  }
-
-  HERE'S THE LAST COMMENT BRACKET
-  */
   }
   Refresh();
 }
