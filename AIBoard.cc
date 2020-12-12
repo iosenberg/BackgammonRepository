@@ -70,7 +70,6 @@ board* board::copyBoard(){
 //checkes if two boards are equal, this will delete boards in our list of possible boards that are duplicates, not necessary but saves some time/efficiency
 bool board::boardEqualP(board* testboard){
   bool check = true;
-  int index = 0;
   if(bar != testboard->bar){
     check = false;
   }
