@@ -2,8 +2,8 @@ CC = g++
 CFLAGS = -g -pedantic -Wall -Wextra -Werror
 LDFLAGS = `wx-config --cxxflags` `wx-config --libs`
 
-Backgammon: Board.o Backgammon.o main.h
-	$(CC) $(CFLAGS) -o Backgammon main.cc Backgammon.o Board.o $(LDFLAGS)
+Backgammon: Board.o Backgammon.o bg.o boardList.o rollsList.o AIBoard.o main.h
+	$(CC) $(CFLAGS) -o Backgammon main.cc Backgammon.o Board.o bg.o boardList.o rollsList.o AIBoard.o $(LDFLAGS)
 
 AIBoard.o: AIBoard.h
 	$(CC) $(CFLAGS) -c -o AIBoard.o AIBoard.cc	

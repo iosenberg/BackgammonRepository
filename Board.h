@@ -41,7 +41,7 @@ class Board : public wxPanel
   int SquareHeight() { return GetClientSize().GetHeight() / BoardHeight; }
   wxStatusBar *m_stsbar;
 
-  AI *gameAI;
+  //  AI gameAI();
 };
 
 #endif
