@@ -1,6 +1,4 @@
-#include <iostream>
 #include "boardList.h"
-using namespace std;
 
 BoardNode::BoardNode(board* board){
   this->boardData = board;

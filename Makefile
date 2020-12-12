@@ -14,7 +14,7 @@ rollsList.o: rollsList.h
 boardList.o: boardList.h AIBoard.o AIBoard.h
 	$(CC) $(CFLAGS) -c -o boardList.o boardList.cc
 
-bg.o: bg.h boardList.o boardList.h rollsList.o rollsList.h
+bg.o: bg.h boardList.o boardList.h rollsList.o rollsList.h AIBoard.o AIBoard.h
 	$(CC) $(CFLAGS) -c -o bg.o bg.cc
 
 Board.o: Board.h rollsList.o rollsList.h bg.o bg.h

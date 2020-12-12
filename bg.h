@@ -1,7 +1,7 @@
 #include <iostream>
 #include "boardList.h"
 #include "rollsList.h"
-#include "Board.h"
+#include "AIBoard.h"
 
 using namespace std;
 

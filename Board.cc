@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "Board.h"
-//#include "bg.h"
+#include "bg.h"
 using namespace std;
 
 Board::Board(wxFrame *parent)
@@ -237,6 +237,7 @@ void Board::OnPaint(wxPaintEvent& WXUNUSED(event))
 
   //Displays a "Thinking" banner when the AI is calculating moves.
   if(playersturn && rollsEmpty) {
+    cout << "Hewwo?" << endl;
     dc.SetTextForeground(wxColor(0,0,0));
     dc.SetFont(wxFont(SquareWidth()*2,wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
 		      wxFONTWEIGHT_NORMAL,false));
@@ -379,6 +380,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
 
   // If it's the AI's turn
   if(playersturn && rollsEmpty){
+    cout << "AI's turn" << endl;
     // Rolls for the AI (displays the rolls on the dice)
     // And displays "Thinking"
     roll1 = (rand() % 6) + 1;
@@ -387,10 +389,9 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
     
     playersturn = false;
     pieceChosen = false;
-    
-    // Run AI code (Roll dice, calculate moves, etc.)
-    // boardArray = AIMove(&boardArray, roll1, roll2);
-    // Refresh()
+
+    // Run AI code
+    boardArray = bg.AIMove(&boardArray, roll1, roll2);
   }
 
   // Check if the player can bear-off

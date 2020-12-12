@@ -1,8 +1,4 @@
-#include <iostream>
-#include "rollsList.h"
-#include "boardList.h"
 #include "bg.h"
-using namespace std;
 
 //generates all possible moves for a single roll (returns stack of board instances)
 BoardList* generateMovesForSingleRoll(board* board1, int roll){
