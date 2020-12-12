@@ -1,8 +1,8 @@
 #include <iostream>
 using namespace std;
 
-#ifndef BOARD_H
-#define BOARD_H
+#ifndef AIBOARD_H
+#define AIBOARD_H
 
 class board {
 public:
