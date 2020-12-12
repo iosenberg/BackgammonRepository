@@ -11,7 +11,7 @@ RollsList::RollsList() {
   header = NULL;
 }
 
-void RollsList::setRolls(int roll1, int roll2) {
+RollsList::RollsList(int roll1, int roll2) {
   header = new RollNode(roll1);
   RollNode* temp = new RollNode(roll2);
   header->next = temp;
