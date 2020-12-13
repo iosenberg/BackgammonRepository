@@ -74,7 +74,7 @@ BoardList* AI::generateAllMoves(board* board1, RollsList* rolls, int numRolls){
   if (!rolls->isEmpty()) {
     int roll = rolls->first();
     BoardList* movesForRoll = generateMovesForSingleRoll(board1,roll);
-    BoardNode* current = movesForRoll->header;
+    //BoardNode* current = movesForRoll->header;
     while (!movesForRoll->isEmpty()) {
       board* move = movesForRoll->pop();
       move->numRolls = numRolls;
