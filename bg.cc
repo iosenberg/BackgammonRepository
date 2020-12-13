@@ -26,7 +26,7 @@ BoardList* AI::generateMovesForSingleRoll(board* board1, int roll){
 	//check if space roll away from that chip is open
 	int moveindex = i+roll;
 	if (moveindex < 24) {
-	  if(board1->boardArray[moveindex] >= -1){
+	  if((board1->boardArray[moveindex] >= -1)&&(board1->boardArray[moveindex] <= 5)){
 	    //add new possible board for each open piece and open slot
 	    board* possibleBoard = board1->copyBoard();
 	    possibleBoard->boardArray[moveindex]++;
