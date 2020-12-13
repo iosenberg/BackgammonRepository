@@ -109,7 +109,7 @@ board* AI::bestMove(board* currentAIBoard, int roll1, int roll2){
     int sumNew = 0;
     int sumOriginal = 0;
     for(int i = 0; i<24; i++){
-      if(current->boardData->boardArray[i] == 1){
+      if(current->boardData->boardArray[i] != 1){
 	current->boardData->score++;
       }
       if(current->boardData->boardArray[i] > 0){
