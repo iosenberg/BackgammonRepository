@@ -9,11 +9,17 @@ BoardList* AI::generateMovesForSingleRoll(board* board1, int roll){
   //check if any chips on bar
   if (board1->bar > 0){
     //check if chips can be taken off bar (slot is open)
-    if(board1->boardArray[roll-1] > -1){
+    if(board1->boardArray[roll-1] >= -1){
       //create new board where chip is taken off bar and into open slot
       board* possibleBoard = board1->copyBoard();
       possibleBoard->bar--;
-      possibleBoard->boardArray[roll-1]++;
+      if (possibleBoard->boardArray[roll-1] == -1) {
+	possibleBoard->opponentBar++;
+	possibleBoard->boardArray[roll-1] = 1;
+      }
+      else {
+	possibleBoard->boardArray[roll-1]++;
+      }
       //push possibleBoard onto BoardList
       possibleBoards->push(possibleBoard);
     }
@@ -29,7 +35,13 @@ BoardList* AI::generateMovesForSingleRoll(board* board1, int roll){
 	  if((board1->boardArray[moveindex] >= -1)&&(board1->boardArray[moveindex] <= 5)){
 	    //add new possible board for each open piece and open slot
 	    board* possibleBoard = board1->copyBoard();
-	    possibleBoard->boardArray[moveindex]++;
+	    if (possibleBoard->boardArray[moveindex] == -1) {
+	      possibleBoard->opponentBar++;
+	      possibleBoard->boardArray[moveindex] = 1;
+	    }
+	    else {
+	      possibleBoard->boardArray[moveindex]++;
+	    }
 	    possibleBoard->boardArray[i]--;
 	    possibleBoards->push(possibleBoard);
 	  }
@@ -62,6 +74,7 @@ BoardList* AI::generateAllMoves(board* board1, RollsList* rolls, int numRolls){
   if (!rolls->isEmpty()) {
     int roll = rolls->first();
     BoardList* movesForRoll = generateMovesForSingleRoll(board1,roll);
+    BoardNode* current = movesForRoll->header;
     while (!movesForRoll->isEmpty()) {
       board* move = movesForRoll->pop();
       move->numRolls = numRolls;
@@ -132,12 +145,17 @@ board* AI::bestMove(board* currentAIBoard, int roll1, int roll2){
   current = refinedMoves->header;
   int maximumScore = -1;
   board* bestBoard;
-  while(current != NULL){
-    if(current->boardData->score > maximumScore){
-      bestBoard = current->boardData;
-      maximumScore = bestBoard->score;
+  if (current == NULL) {
+    bestBoard = currentAIBoard;
+  }
+  else {
+    while(current != NULL){
+      if(current->boardData->score > maximumScore){
+	bestBoard = current->boardData;
+	maximumScore = bestBoard->score;
+      }
+      current = current->next;
     }
-    current = current->next;
   }
   return bestBoard;
 }
@@ -154,6 +172,7 @@ int* AI::AIMove(int* boardArray, int roll1, int roll2){
   board* bestBoard = bestMove(currentAIBoard, roll1, roll2);
   //in bestBoard - the player's bar is opponentBar and ai bar is bar
   //in bestBoardPlayerView = player's bar is bar and ai bar is opponentBar
+  
   board* bestBoardPlayerView = bestBoard->reverseBoard();
   static int newBoardArray[26];
   for (int i = 0; i < 24; i++){
