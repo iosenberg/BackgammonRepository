@@ -79,11 +79,16 @@ void BoardList::removeDuplicates(){
 void BoardList::Merge(BoardList* lst){
   BoardNode* current = header;
   BoardNode* temp;
-  while(current != NULL){
-    temp = current;
-    current = current->next;
+  if (header == NULL) {
+    header = lst->header;
   }
-  temp->next = lst->header;
+  else {
+    while(current != NULL){
+      temp = current;
+      current = current->next;
+    }
+    temp->next = lst->header;
+  }
 }
 
 int BoardList::findMax(){
