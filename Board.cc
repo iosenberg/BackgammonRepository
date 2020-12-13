@@ -265,7 +265,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
       playersturn = true;
       pieceChosen = false;
       cout << "Successful Roll!" << endl;
-      cout << "Rolls are: " << currentRolls[0] << ", " << currentRolls[1] << ", " << currentRolls[2] << ", and " << currentRolls[3] << endl;
+      //cout << "Rolls are: " << currentRolls[0] << ", " << currentRolls[1] << ", " << currentRolls[2] << ", and " << currentRolls[3] << endl;
     } 
   }
   
@@ -283,7 +283,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
 	if(selectedsection == -1) continue;
 	if(selectedsection == movesList[i] && pieceChosen){
 	  endspace = movesList[i];
-	  cout << "Moving " << startspace << " to " << endspace << endl;
+	  //cout << "Moving " << startspace << " to " << endspace << endl;
 	  // Capturing a piece
 	  if(boardArray[endspace] == -1) {
 	    if(startspace > -1) boardArray[startspace] -= 1;
@@ -308,7 +308,7 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
 	  // If all the rolls are empty, rollsEmpty = true
 	  if(currentRolls[0] == 0 && currentRolls[1] == 0 && currentRolls[2] == 0 && currentRolls[3] == 0){
 	    rollsEmpty = true;
-	    cout << "Rolls is now empty." << endspace << endl;
+	    cout << "Out of moves!" << endl;
 	  }
 	  // Resets movesList and deselects piece
 	  movesList[i] = -1;
@@ -320,10 +320,10 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
       }
 
       // If a piece is already selected and another piece is selected      
-      if(pieceChosen && selectedsection > -1 && selectedsection < 24){
+      if(pieceChosen && selectedsection > -1 && selectedsection < 24 && boardArray[selectedsection] > 0){
 	// If there are brown pieces on that spot, don't select it.
-	if(boardArray[selectedsection] < 0) cout << "beep" << endl;//continue; just to make it compile
-	else if(boardArray[25] > 0) { // If white pieces on bar,
+	//if(boardArray[selectedsection] < 0) 1 == 1;
+	if(boardArray[25] > 0) { // If white pieces on bar,
 	  selectedpiece = 25;
 	  startspace = -1; // Start on brown's "endslot"
 	}
@@ -335,10 +335,10 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
       }
     }
     // No piece is already selected, and a piece is selected
-    else if(selectedsection > -1 && selectedsection < 24){
+    else if(selectedsection > -1 && selectedsection < 24 && boardArray[selectedsection] > 0){
       // If there are brown pieces on that spot, don't select it.
-      if(boardArray[selectedsection] < 0) cout << "beep" << endl;//continue; just to make it compile
-      else if(boardArray[25] > 0) { // If white pieces on bar,
+      //if(boardArray[selectedsection] < 0) ;
+      if(boardArray[25] > 0) { // If white pieces on bar,
 	selectedpiece = 25;
         startspace = -1; // Start on brown's "endslot"
       } else {
@@ -357,32 +357,32 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
       for(int counter=0;counter<4;counter++){
 	if(currentRolls[counter] != 0) {
 	  destination = startspace + currentRolls[counter];
-	  // If there are more than 2 brown or more than 4 white, skip.
-	  if(boardArray[destination] < -1 || boardArray[destination] > 4){
-	    movesList[counter] = -1;
-	    continue;
-	  }
 	  // If bearOff == false and destination > 23, skip
-	  else if(!isBearOff && destination > 23) {
+	  if(!isBearOff && destination > 23) {
+	    //cout << startspace << " to " << destination << " no good, not bear-off yet." << endl;
 	    movesList[counter] = -1;
-	    continue;
 	  }
 	  // If bearOff == true and destination > 23, set destination to 24
 	  else if(isBearOff && destination > 23) {
 	    movesList[counter] = 24;
 	  }
+	  // If there are more than 2 brown or 4 white, skip
+	  else if(boardArray[destination] < -1 || boardArray[destination] > 4){
+            movesList[counter] = -1;
+            //cout << startspace << " to " << destination << " no good, there are " << boardArray[destination] << " chips." << endl;
+          }
 	  // Else the space is available
 	  else movesList[counter] = destination;
 	}
-      }
+     }
       
-      cout << "Your possible moves are: " << movesList[0] << ", " << movesList[1] << ", " <<  movesList[2] << ", and " << movesList[3] << endl;
+      //cout << "Your possible moves are: " << movesList[0] << ", " << movesList[1] << ", " <<  movesList[2] << ", and " << movesList[3] << endl;
     }
   }
 
   // If it's the AI's turn
   if(playersturn && rollsEmpty){
-    cout << "AI's turn" << endl;
+    cout << "AI's turn." << endl;
     // Rolls for the AI (displays the rolls on the dice)
     // And displays "Thinking"
     roll1 = (rand() % 6) + 1;
@@ -402,24 +402,26 @@ void Board::OnClick(wxMouseEvent& event) //when the mouse is clicked within the 
       boardArray[i] = *(boardPointer + i);
     roll1=0;
     roll2=0;
+    cout << "Player's turn." << endl;
   }
 
   // Check if the player can bear-off
   int chip_sum = 0;
-  for (int index=18; index < 24; index++){
+  for (int index=0; index < 18; index++){
     if(boardArray[index] > 0) chip_sum += boardArray[index];
   }
-  chip_sum += myendslot;
-  if(15 == chip_sum) isBearOff = true;
-  else {
-    isBearOff = false;
-  }
+  chip_sum += boardArray[25];
+  if(0 == chip_sum) isBearOff = true;
+  else isBearOff = false;
+    
   if(myendslot == 15 || opponentendslot == 15){                      
     //- Display an endscreen based on who won?
     if (myendslot == 15) cout << "Congrats! Player won!" << endl;
     else if (opponentendslot == 15) cout << "Too bad, the AI won." << endl;
     //- wait 60 seconds                                                           
-    //- exit                                         
+    sleep(60);
+    //- exit
+    exit(0);
   }
   
   Refresh();
