@@ -105,13 +105,12 @@ board* AI::bestMove(board* currentAIBoard, int roll1, int roll2){
   RollsList* rolls = new RollsList(roll1,roll2);
   BoardList* refinedMoves = generateMoves(currentAIBoard, rolls);
   BoardNode* current = refinedMoves->header;
-  bool check = true;
   while(current!=NULL){
     int sumNew = 0;
     int sumOriginal = 0;
     for(int i = 0; i<24; i++){
       if(current->boardData->boardArray[i] == 1){
-	check = false;
+	current->boardData->score++;
       }
       if(current->boardData->boardArray[i] > 0){
 	sumNew += current->boardData->boardArray[i];
@@ -123,9 +122,6 @@ board* AI::bestMove(board* currentAIBoard, int roll1, int roll2){
     }
     if(current->boardData->opponentBar > currentAIBoard->opponentBar){
 	current->boardData->score++;
-    }
-    if (check){
-      current->boardData->score++;
     }
     if(sumNew<sumOriginal){
       current->boardData->score++;
